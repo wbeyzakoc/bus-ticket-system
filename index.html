@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BusGo | Comfortable Travel</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-page="search">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button type="button" class="back-btn" onclick="window.history.back()" aria-label="Go back">←</button>
+        <a class="brand" href="index.html">BusGo</a>
+        <nav class="crumbs">Search</nav>
+      </div>
+      <div id="authNav" class="auth-nav"></div>
+    </header>
+
+    <section class="landing-hero reveal">
+      <img
+        class="hero-bg-image"
+        src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=2000&q=80"
+        alt="Modern bus travel on the road"
+      />
+      <div class="hero-overlay" aria-hidden="true"></div>
+      <div class="landing-hero-inner">
+        <div class="hero-grid hero-grid-centered">
+          <div class="hero-content">
+            <p class="eyebrow">Intercity e-ticketing</p>
+            <h1>Move Fast. Travel Smart.</h1>
+            <p class="subtle hero-subtitle">
+              Modern ticket booking with real-time seat selection.
+            </p>
+            <div class="hero-cta">
+              <button type="button" id="ctaSearch" class="btn btn-primary">Find Trips</button>
+            </div>
+          </div>
+          <div class="hero-stats hero-stats-compact" aria-hidden="true">
+            <div class="stat">
+              <div class="stat-num">10k+</div>
+              <div class="stat-label">Bookings</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num">2+2</div>
+              <div class="stat-label">Seat Layout</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num">5 min</div>
+              <div class="stat-label">Last-minute lock</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main class="landing-main">
+      <section class="panel about reveal">
+        <h2>About BusGo</h2>
+        <p class="subtle">
+          We built BusGo to feel like a production-level travel system: live-looking seat maps, transparent pricing,
+          and booking rules that mirror real-world constraints.
+        </p>
+      </section>
+
+      <section class="panel features reveal">
+        <div class="section-heading">
+          <h2>Why book with BusGo</h2>
+          <p class="subtle">Built around real bus travel expectations, not generic templates.</p>
+        </div>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <img
+              class="feature-image"
+              src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=900&q=80"
+              alt="Safe and modern bus fleet"
+            />
+            <div class="feature-icon-chip" aria-hidden="true">Safety</div>
+            <h3>Safe Travel</h3>
+            <p class="subtle">Seat policies and last-minute cutoffs prevent invalid bookings.</p>
+          </div>
+          <div class="feature-card">
+            <img
+              class="feature-image"
+              src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=900&q=80"
+              alt="Comfortable bus interior seats"
+            />
+            <div class="feature-icon-chip" aria-hidden="true">Comfort</div>
+            <h3>Comfortable Seats</h3>
+            <p class="subtle">VIP front seats with distinct pricing and a clear seat legend.</p>
+          </div>
+          <div class="feature-card">
+            <img
+              class="feature-image"
+              src="https://images.unsplash.com/photo-1464219789935-c2d9d9aba644?auto=format&fit=crop&w=900&q=80"
+              alt="Fast digital booking experience"
+            />
+            <div class="feature-icon-chip" aria-hidden="true">Speed</div>
+            <h3>Fast Booking</h3>
+            <p class="subtle">Smooth animations, live totals, and a quick confirmation page.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="searchSection" class="panel reveal">
+        <div class="search-head">
+          <h2>Find your trip</h2>
+          <p class="subtle small">Search below to view trips and pick seats in real-time.</p>
+        </div>
+
+        <form id="searchForm" class="search-form">
+          <label>
+            <span>From</span>
+            <select id="fromCity" required>
+              <option value="">Select origin</option>
+            </select>
+          </label>
+          <label>
+            <span>To</span>
+            <select id="toCity" required>
+              <option value="">Select destination</option>
+            </select>
+          </label>
+          <label>
+            <span>Date</span>
+            <input id="travelDate" type="date" required />
+          </label>
+          <button type="submit" class="btn btn-primary">Search Trips</button>
+        </form>
+      </section>
+    </main>
+
+    <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+    <script src="script.js"></script>
+  </body>
+  </html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BusGo | Payment</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-page="payment">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button type="button" class="back-btn" onclick="window.history.back()" aria-label="Go back">←</button>
+        <a class="brand" href="index.html">BusGo</a>
+        <nav class="crumbs">Cart / Payment</nav>
+      </div>
+      <div id="authNav" class="auth-nav"></div>
+    </header>
+
+    <main class="page">
+      <section class="panel reveal">
+        <h1>Payment</h1>
+        <div id="paymentSummary" class="ticket-meta"></div>
+        <form id="paymentForm" class="auth-form">
+          <label><span>Card Number</span><input id="cardNumber" placeholder="1234 5678 9012 3456" required /></label>
+          <label><span>Card Holder Name</span><input id="cardName" placeholder="Full Name" required /></label>
+          <label><span>Expiry (MM/YY)</span><input id="cardExpiry" placeholder="MM/YY" required /></label>
+          <label><span>CVV</span><input id="cardCvv" placeholder="123" required /></label>
+          <button type="submit" class="btn btn-primary">Complete Payment</button>
+        </form>
+      </section>
+    </main>
+
+    <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+    <script src="script.js"></script>
+  </body>
+</html>

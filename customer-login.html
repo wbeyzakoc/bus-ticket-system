@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BusGo | Customer Login</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-page="customer-login">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button type="button" class="back-btn" onclick="window.history.back()" aria-label="Go back">←</button>
+        <a class="brand" href="index.html">BusGo</a>
+        <nav class="crumbs">Customer Login</nav>
+      </div>
+      <div id="authNav" class="auth-nav"></div>
+    </header>
+
+    <main class="page">
+      <section class="panel auth-panel reveal">
+        <h1>Customer Login</h1>
+        <p class="subtle">Sign in to book and manage your bus tickets.</p>
+        <form id="loginForm" class="auth-form">
+          <label><span>Email</span><input id="loginEmail" type="email" autocomplete="email" required /></label>
+          <label><span>Password</span><input id="loginPassword" type="password" autocomplete="current-password" required /></label>
+          <button type="submit" class="btn btn-primary">Login as Customer</button>
+        </form>
+        <p class="subtle small" style="margin: 14px 0 0;">No account? <a href="register.html">Register</a></p>
+      </section>
+    </main>
+
+    <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+    <script src="script.js"></script>
+  </body>
+</html>

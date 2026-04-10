@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BusGo | Profile</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-page="profile">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button type="button" class="back-btn" onclick="window.history.back()" aria-label="Go back">←</button>
+        <a class="brand" href="index.html">BusGo</a>
+        <nav class="crumbs">Profile</nav>
+      </div>
+      <div id="authNav" class="auth-nav"></div>
+    </header>
+
+    <main class="page">
+      <section class="panel reveal">
+        <h1>My Profile</h1>
+        <div id="profileInfo" class="profile-info"></div>
+        <button id="profileLogoutBtn" class="btn btn-primary">Logout</button>
+      </section>
+
+      <section class="panel reveal">
+        <h2>My Tickets</h2>
+        <div id="myTickets" class="ticket-list"></div>
+      </section>
+    </main>
+
+    <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+    <script src="script.js"></script>
+  </body>
+</html>

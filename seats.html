@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BusGo | Seat Selection</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-page="seats">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button type="button" class="back-btn" onclick="window.history.back()" aria-label="Go back">←</button>
+        <a class="brand" href="index.html">BusGo</a>
+        <nav class="crumbs">Search / Trips / Seats</nav>
+      </div>
+      <div id="authNav" class="auth-nav"></div>
+    </header>
+
+    <main class="page seat-layout">
+      <section class="panel reveal">
+        <div class="seat-title">
+          <h1>Choose Seats</h1>
+          <p id="seatTripMeta" class="subtle"></p>
+        </div>
+
+        <div class="seat-visual-strip">
+          <div class="seat-carousel" id="seatCarousel">
+            <button type="button" class="carousel-arrow prev" data-carousel-prev aria-label="Previous image">‹</button>
+            <div class="carousel-track" id="carouselTrack">
+              <div class="carousel-slide active">
+                <img
+                  class="seat-banner-image"
+                  src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1200&q=80"
+                  alt="Modern bus interior"
+                />
+              </div>
+              <div class="carousel-slide">
+                <img
+                  class="seat-banner-image"
+                  src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80"
+                  alt="Bus on highway"
+                />
+              </div>
+              <div class="carousel-slide">
+                <img
+                  class="seat-banner-image"
+                  src="https://images.unsplash.com/photo-1517498327491-f903e1e281cd?auto=format&fit=crop&w=1200&q=80"
+                  alt="Comfortable coach seats"
+                />
+              </div>
+            </div>
+            <button type="button" class="carousel-arrow next" data-carousel-next aria-label="Next image">›</button>
+          </div>
+          <div class="bus-topview" aria-hidden="true">
+            <span class="bus-window"></span>
+            <span class="bus-window"></span>
+            <span class="bus-window"></span>
+            <span class="bus-window"></span>
+            <span class="bus-window"></span>
+            <span class="bus-wheel left"></span>
+            <span class="bus-wheel right"></span>
+          </div>
+        </div>
+
+        <div class="legend">
+          <span><i class="dot available"></i>○ Available</span>
+          <span><i class="dot selected"></i>✓ Selected</span>
+          <span><i class="dot occupied"></i>✕ Occupied</span>
+          <span><i class="dot restricted"></i>! Warning</span>
+          <span><i class="dot vip"></i>★ VIP</span>
+        </div>
+
+        <div id="seatGrid" class="seat-grid" role="grid" aria-label="Bus seat map"></div>
+      </section>
+
+      <aside class="panel sticky reveal">
+        <h2>Passengers</h2>
+        <p class="subtle small">Assign one seat per passenger.</p>
+        <div id="passengerList" class="passenger-list"></div>
+
+        <h2>Live Summary</h2>
+        <div id="summaryBox" class="summary-box"></div>
+
+        <button id="continueBtn" class="btn btn-primary full">Continue to Cart</button>
+      </aside>
+    </main>
+
+    <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+    <script src="script.js"></script>
+  </body>
+  </html>
