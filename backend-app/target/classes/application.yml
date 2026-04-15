@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: ${BUSGO_DB_URL:jdbc:mysql://localhost:3306/busgo?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Europe/Istanbul}
+    username: ${BUSGO_DB_USER:busgo}
+    password: ${BUSGO_DB_PASS:busgo123}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+        type:
+          preferred_uuid_jdbc_type: BINARY
+
+server:
+  port: 8080
+
+logging:
+  level:
+    org.hibernate.SQL: warn
