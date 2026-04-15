@@ -3,6 +3,7 @@
 /Users/harun/Desktop/bus-ticket-system/backend-app/src/main/java/com/busgo/controller/AuthController.java
 /Users/harun/Desktop/bus-ticket-system/backend-app/src/main/java/com/busgo/model/Role.java
 /Users/harun/Desktop/bus-ticket-system/backend-app/src/main/java/com/busgo/model/ReservationStatus.java
+/Users/harun/Desktop/bus-ticket-system/backend-app/src/main/java/com/busgo/service/BookingConfirmationMailEvent.java
 /Users/harun/Desktop/bus-ticket-system/backend-app/src/main/java/com/busgo/dto/AuthDtos.java
 /Users/harun/Desktop/bus-ticket-system/backend-app/src/main/java/com/busgo/model/Payment.java
 /Users/harun/Desktop/bus-ticket-system/backend-app/src/main/java/com/busgo/dto/TripDtos.java
@@ -28,6 +29,7 @@
 /Users/harun/Desktop/bus-ticket-system/backend-app/src/main/java/com/busgo/model/Reservation.java
 /Users/harun/Desktop/bus-ticket-system/backend-app/src/main/java/com/busgo/model/BusCompany.java
 /Users/harun/Desktop/bus-ticket-system/backend-app/src/main/java/com/busgo/dto/PaymentDtos.java
+/Users/harun/Desktop/bus-ticket-system/backend-app/src/main/java/com/busgo/service/BookingMailService.java
 /Users/harun/Desktop/bus-ticket-system/backend-app/src/main/java/com/busgo/repo/ReservationRepository.java
 /Users/harun/Desktop/bus-ticket-system/backend-app/src/main/java/com/busgo/controller/PaymentController.java
 /Users/harun/Desktop/bus-ticket-system/backend-app/src/main/java/com/busgo/model/Bus.java
@@ -42,3 +44,4 @@
 /Users/harun/Desktop/bus-ticket-system/backend-app/src/main/java/com/busgo/model/City.java
 /Users/harun/Desktop/bus-ticket-system/backend-app/src/main/java/com/busgo/model/Trip.java
 /Users/harun/Desktop/bus-ticket-system/backend-app/src/main/java/com/busgo/repo/AuthTokenRepository.java
+/Users/harun/Desktop/bus-ticket-system/backend-app/src/main/java/com/busgo/service/IyziPaymentService.java

@@ -59,6 +59,12 @@ public class Ticket {
   @Column(nullable = false, scale = 2, precision = 10)
   private BigDecimal price;
 
+  @Column(name = "provider_payment_id")
+  private String providerPaymentId;
+
+  @Column(name = "provider_payment_transaction_id")
+  private String providerPaymentTransactionId;
+
   @Column(nullable = false)
   private Instant createdAt;
 
@@ -164,6 +170,22 @@ public class Ticket {
 
   public void setPrice(BigDecimal price) {
     this.price = price;
+  }
+
+  public String getProviderPaymentId() {
+    return providerPaymentId;
+  }
+
+  public void setProviderPaymentId(String providerPaymentId) {
+    this.providerPaymentId = providerPaymentId;
+  }
+
+  public String getProviderPaymentTransactionId() {
+    return providerPaymentTransactionId;
+  }
+
+  public void setProviderPaymentTransactionId(String providerPaymentTransactionId) {
+    this.providerPaymentTransactionId = providerPaymentTransactionId;
   }
 
   public Instant getCreatedAt() {

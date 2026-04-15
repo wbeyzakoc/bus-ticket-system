@@ -10,9 +10,11 @@ import com.busgo.model.User;
 import com.busgo.repo.AuthTokenRepository;
 import com.busgo.repo.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Locale;
 import java.util.UUID;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,14 +22,22 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class AuthService {
+  private static final BigDecimal FALLBACK_DEMO_BALANCE = BigDecimal.valueOf(5000);
+
   private final UserRepository userRepository;
   private final AuthTokenRepository tokenRepository;
   private final PasswordEncoder passwordEncoder;
+  private final BigDecimal initialDemoBalance;
 
-  public AuthService(UserRepository userRepository, AuthTokenRepository tokenRepository, PasswordEncoder passwordEncoder) {
+  public AuthService(
+      UserRepository userRepository,
+      AuthTokenRepository tokenRepository,
+      PasswordEncoder passwordEncoder,
+      @Value("${busgo.demo-balance.initial:5000}") BigDecimal initialDemoBalance) {
     this.userRepository = userRepository;
     this.tokenRepository = tokenRepository;
     this.passwordEncoder = passwordEncoder;
+    this.initialDemoBalance = initialDemoBalance == null ? FALLBACK_DEMO_BALANCE : initialDemoBalance;
   }
 
   public AuthResponse register(RegisterRequest request) {
@@ -42,6 +52,7 @@ public class AuthService {
     user.setEmail(email);
     user.setPasswordHash(passwordEncoder.encode(request.password()));
     user.setRole(role);
+    user.setDemoBalance(this.initialDemoBalance);
     user.setCreatedAt(Instant.now());
     userRepository.save(user);
     return issueToken(user);
@@ -92,10 +103,18 @@ public class AuthService {
   }
 
   public UserDto toDto(User user) {
-    return new UserDto(user.getEmail(), user.getUsername(), user.getRole().name().toLowerCase(Locale.US));
+    return new UserDto(
+        user.getEmail(),
+        user.getUsername(),
+        user.getRole().name().toLowerCase(Locale.US),
+        currentDemoBalance(user));
   }
 
   private AuthResponse issueToken(User user) {
+    if (user.getDemoBalance() == null) {
+      user.setDemoBalance(this.initialDemoBalance);
+      userRepository.save(user);
+    }
     AuthToken token = new AuthToken();
     token.setToken(UUID.randomUUID().toString());
     token.setUser(user);
@@ -111,6 +130,10 @@ public class AuthService {
   private Role parseRole(String role) {
     if (role == null || role.isBlank()) return null;
     return "admin".equalsIgnoreCase(role) ? Role.ADMIN : Role.USER;
+  }
+
+  private BigDecimal currentDemoBalance(User user) {
+    return user.getDemoBalance() == null ? this.initialDemoBalance : user.getDemoBalance();
   }
 
   private String extractToken(HttpServletRequest request) {
