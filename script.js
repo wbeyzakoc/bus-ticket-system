@@ -504,7 +504,7 @@ function initRegisterPage() {
     const name = String(document.getElementById("registerName")?.value || "").trim();
     const email = String(document.getElementById("registerEmail")?.value || "").trim().toLowerCase();
     const password = String(document.getElementById("registerPassword")?.value || "");
-    const role = String(document.getElementById("registerRole")?.value || "user");
+    const role = "user";
     if (!name || !email || !password) return showToast("Please complete all fields.", "error");
     if (password.length < 6) return showToast("Password must be at least 6 characters.", "error");
 
@@ -526,9 +526,12 @@ function initProfilePage() {
   if (!user) return requireLoginAndRedirect("profile.html");
 
   const info = document.getElementById("profileInfo");
-  const list = document.getElementById("myTickets");
   const logout = document.getElementById("profileLogoutBtn");
-  if (!info || !list || !logout) return;
+  const ticketsSection = document.getElementById("ticketsSection");
+  const adminSection = document.getElementById("adminSection");
+  const list = document.getElementById("myTickets");
+  
+  if (!info || !logout) return;
 
   info.innerHTML = `
     <p><strong>Name:</strong> ${escapeHtml(user.username)}</p>
@@ -536,20 +539,83 @@ function initProfilePage() {
     <p><strong>Role:</strong> ${escapeHtml(user.role || "user")}</p>
   `;
 
-  const tickets = (readJson(STORAGE_KEYS.tickets) || []).filter((t) => t.userEmail === user.email);
-  list.innerHTML = tickets.length
-    ? tickets
-        .map(
-          (t) => `
-      <article class="ticket-item">
-        <p><strong>${escapeHtml(t.from)} → ${escapeHtml(t.to)}</strong></p>
-        <p>${escapeHtml(t.date)} • Seat ${t.seatNumber} • $${Number(t.price).toFixed(2)}</p>
-      </article>`
-        )
-        .join("")
-    : `<p class="subtle">No tickets yet.</p>`;
+  const isAdmin = user.role === "admin";
+
+  if (isAdmin) {
+    if (ticketsSection) ticketsSection.style.display = "none";
+    if (adminSection) adminSection.style.display = "block";
+    initAddAdminForm();
+  } else {
+    if (ticketsSection) ticketsSection.style.display = "block";
+    if (adminSection) adminSection.style.display = "none";
+    if (list) {
+      const tickets = (readJson(STORAGE_KEYS.tickets) || []).filter((t) => t.userEmail === user.email);
+      list.innerHTML = tickets.length
+        ? tickets
+            .map(
+              (t) => `
+        <article class="ticket-item">
+          <p><strong>${escapeHtml(t.from)} → ${escapeHtml(t.to)}</strong></p>
+          <p>${escapeHtml(t.date)} • Seat ${t.seatNumber} • $${Number(t.price).toFixed(2)}</p>
+        </article>`
+            )
+            .join("")
+        : `<p class="subtle">No tickets yet.</p>`;
+    }
+  }
 
   logout.addEventListener("click", () => logoutUser("index.html"));
+}
+
+function initAddAdminForm() {
+  const form = document.getElementById("addAdminForm");
+  if (!form) return;
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    
+    const name = String(document.getElementById("adminName")?.value || "").trim();
+    const email = String(document.getElementById("adminEmail")?.value || "").trim().toLowerCase();
+    const password = String(document.getElementById("adminPassword")?.value || "");
+    const companyName = String(document.getElementById("adminCompanyName")?.value || "").trim();
+    const companyId = String(document.getElementById("adminCompanyId")?.value || "").trim();
+
+    // Validation
+    if (!name || !email || !password || !companyName || !companyId) {
+      return showToast("Please complete all fields.", "error");
+    }
+
+    if (password.length < 6) {
+      return showToast("Password must be at least 6 characters.", "error");
+    }
+
+    if (!email.includes("@")) {
+      return showToast("Please enter a valid email address.", "error");
+    }
+
+    // Check if email already exists
+    const users = readJson(STORAGE_KEYS.users) || [];
+    if (users.some((u) => String(u.email || "").toLowerCase() === email)) {
+      return showToast("An account with this email already exists.", "error");
+    }
+
+    // Create new admin user
+    const newAdmin = {
+      username: name,
+      email: email,
+      password: password,
+      role: "admin",
+      companyName: companyName,
+      companyId: companyId,
+      createdAt: Date.now()
+    };
+
+    users.push(newAdmin);
+    writeJson(STORAGE_KEYS.users, users);
+
+    showToast("Admin account created successfully!", "success");
+    form.reset();
+  });
 }
 
 function initAdminPage() {

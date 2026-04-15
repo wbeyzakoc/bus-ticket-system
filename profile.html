@@ -23,9 +23,36 @@
         <button id="profileLogoutBtn" class="btn btn-primary">Logout</button>
       </section>
 
-      <section class="panel reveal">
+      <section id="ticketsSection" class="panel reveal">
         <h2>My Tickets</h2>
         <div id="myTickets" class="ticket-list"></div>
+      </section>
+
+      <section id="adminSection" class="panel reveal" style="display: none;">
+        <h2>Add Admin</h2>
+        <form id="addAdminForm" class="auth-form">
+          <label>
+            <span>Full Name</span>
+            <input id="adminName" type="text" autocomplete="name" required />
+          </label>
+          <label>
+            <span>Email</span>
+            <input id="adminEmail" type="email" autocomplete="email" required />
+          </label>
+          <label>
+            <span>Password</span>
+            <input id="adminPassword" type="password" autocomplete="new-password" required />
+          </label>
+          <label>
+            <span>Company Name</span>
+            <input id="adminCompanyName" type="text" required />
+          </label>
+          <label>
+            <span>Company ID</span>
+            <input id="adminCompanyId" type="text" required />
+          </label>
+          <button type="submit" class="btn btn-primary">Add Admin</button>
+        </form>
       </section>
     </main>
 
