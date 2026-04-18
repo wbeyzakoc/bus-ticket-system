@@ -39,6 +39,10 @@ import org.springframework.web.server.ResponseStatusException;
 public class IyziPaymentService {
   private static final String DEFAULT_CURRENCY = "TRY";
   private static final String SANDBOX_BASE_URL = "https://sandbox-api.iyzipay.com";
+  private static final String LOCAL_PAYMENT_PREFIX = "LOCAL-IYZI-";
+  private static final String LOCAL_TRANSACTION_PREFIX = "LOCAL-IYZI-TXN-";
+  private static final String SANDBOX_DECLINED_CARD = "4111111111111129";
+  private static final String SANDBOX_INVALID_CVC_CARD = "4124111111111116";
   private static final DateTimeFormatter IYZI_DATE_FORMAT =
       DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.of("Europe/Istanbul"));
 
@@ -69,13 +73,11 @@ public class IyziPaymentService {
 
   public IyziPaymentResponse authorizePayment(
       User user, IyziPaymentRequest request, String clientIp) {
-    requireConfigured();
     validateCardData(request);
     BigDecimal currentBalance = ensureDemoBalance(user);
-    if (currentBalance.compareTo(request.amount()) < 0) {
-      throw new ResponseStatusException(
-          HttpStatus.CONFLICT,
-          "Insufficient demo balance. Top balance must be at least " + request.amount());
+    ensureSufficientDemoBalance(currentBalance, request.amount());
+    if (!isConfigured()) {
+      return authorizeLocalSandboxPayment(user, request, currentBalance);
     }
 
     String rawBody = buildPaymentBody(user, request, clientIp);
@@ -98,18 +100,29 @@ public class IyziPaymentService {
   }
 
   public IyziRefundResult refundTicket(User user, Ticket ticket, BigDecimal amount) {
-    if (ticket.getProviderPaymentTransactionId() == null
-        || ticket.getProviderPaymentTransactionId().isBlank()) {
+    String paymentTransactionId = normalizeReference(ticket.getProviderPaymentTransactionId());
+    String paymentId = normalizeReference(ticket.getProviderPaymentId());
+
+    if (isLocalReference(paymentTransactionId) || isLocalReference(paymentId)) {
       BigDecimal balanceAfter = creditDemoBalance(user, amount);
       return new IyziRefundResult("LOCAL-REFUND-" + UUID.randomUUID(), balanceAfter, true);
     }
 
     requireConfigured();
+    if (paymentTransactionId == null) {
+      paymentTransactionId = resolvePaymentTransactionId(ticket, paymentId);
+    }
+    if (paymentTransactionId == null || paymentTransactionId.isBlank()) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_GATEWAY, "iyzico payment transaction id is missing for refund");
+    }
+
     Map<String, Object> payload = new HashMap<>();
     payload.put("locale", "tr");
     payload.put("conversationId", "refund-" + ticket.getId());
-    payload.put("paymentTransactionId", ticket.getProviderPaymentTransactionId());
+    payload.put("paymentTransactionId", paymentTransactionId);
     payload.put("price", asMoney(amount));
+    payload.put("currency", DEFAULT_CURRENCY);
     payload.put("ip", "127.0.0.1");
 
     String rawBody = writeJson(payload);
@@ -122,7 +135,9 @@ public class IyziPaymentService {
 
     String refundRef =
         firstNonBlank(
+            text(root, "refundHostReference"),
             text(root, "paymentTransactionId"),
+            text(root, "paymentId"),
             text(root, "conversationId"),
             "RFND-" + UUID.randomUUID());
     return new IyziRefundResult(refundRef, balanceAfter, false);
@@ -137,8 +152,39 @@ public class IyziPaymentService {
     return balanceAfter;
   }
 
+  private IyziPaymentResponse authorizeLocalSandboxPayment(
+      User user, IyziPaymentRequest request, BigDecimal currentBalance) {
+    String cardNumber = normalizeCardNumber(request.cardNumber());
+    if (SANDBOX_INVALID_CVC_CARD.equals(cardNumber)) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "Sandbox payment failed: invalid CVC.");
+    }
+    if (SANDBOX_DECLINED_CARD.equals(cardNumber)) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "Sandbox payment failed: insufficient funds.");
+    }
+
+    BigDecimal balanceAfter = currentBalance.subtract(request.amount());
+    user.setDemoBalance(balanceAfter);
+    userRepository.save(user);
+
+    String paymentId = LOCAL_PAYMENT_PREFIX + UUID.randomUUID();
+    List<IyziPaymentItemResponse> items = new ArrayList<>();
+    for (IyziBasketItemRequest item : request.items()) {
+      items.add(
+          new IyziPaymentItemResponse(
+              item.seatNumber(), LOCAL_TRANSACTION_PREFIX + UUID.randomUUID(), item.amount()));
+    }
+
+    return new IyziPaymentResponse(paymentId, paymentId, "success", balanceAfter, items);
+  }
+
+  private boolean isConfigured() {
+    return !apiKey.isBlank() && !secretKey.isBlank();
+  }
+
   private void requireConfigured() {
-    if (apiKey.isBlank() || secretKey.isBlank()) {
+    if (!isConfigured()) {
       throw new ResponseStatusException(
           HttpStatus.SERVICE_UNAVAILABLE,
           "iyzico sandbox keys are not configured. Set IYZI_API_KEY and IYZI_SECRET_KEY.");
@@ -146,7 +192,7 @@ public class IyziPaymentService {
   }
 
   private void validateCardData(IyziPaymentRequest request) {
-    String cardNumber = request.cardNumber().replaceAll("\\s+", "");
+    String cardNumber = normalizeCardNumber(request.cardNumber());
     if (!cardNumber.matches("^\\d{16}$")) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid card number");
     }
@@ -164,6 +210,14 @@ public class IyziPaymentService {
       userRepository.save(user);
     }
     return user.getDemoBalance();
+  }
+
+  private void ensureSufficientDemoBalance(BigDecimal currentBalance, BigDecimal amount) {
+    if (currentBalance.compareTo(amount) < 0) {
+      throw new ResponseStatusException(
+          HttpStatus.CONFLICT,
+          "Insufficient demo balance. Top balance must be at least " + amount);
+    }
   }
 
   private String buildPaymentBody(User user, IyziPaymentRequest request, String clientIp) {
@@ -279,6 +333,42 @@ public class IyziPaymentService {
     return items;
   }
 
+  private String resolvePaymentTransactionId(Ticket ticket, String paymentId) {
+    if (paymentId == null || paymentId.isBlank()) {
+      return null;
+    }
+
+    Map<String, Object> payload = new HashMap<>();
+    payload.put("locale", "tr");
+    payload.put("conversationId", "payment-detail-" + ticket.getId());
+    payload.put("paymentId", paymentId);
+
+    JsonNode root = sendRequest("/payment/detail", writeJson(payload));
+    if (!"success".equalsIgnoreCase(text(root, "status"))) {
+      throw iyziFailure(root);
+    }
+
+    JsonNode transactionsNode = root.path("itemTransactions");
+    if (!transactionsNode.isArray() || transactionsNode.isEmpty()) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_GATEWAY, "iyzico payment detail item transactions are missing");
+    }
+
+    String expectedItemId = buildSeatItemId(ticket);
+    if (expectedItemId != null) {
+      for (JsonNode itemNode : transactionsNode) {
+        if (expectedItemId.equals(text(itemNode, "itemId"))) {
+          return text(itemNode, "paymentTransactionId");
+        }
+      }
+    }
+
+    if (transactionsNode.size() == 1) {
+      return text(transactionsNode.get(0), "paymentTransactionId");
+    }
+    return null;
+  }
+
   private JsonNode sendRequest(String path, String rawBody) {
     try {
       String randomKey = String.valueOf(System.currentTimeMillis());
@@ -340,9 +430,31 @@ public class IyziPaymentService {
     return currency.trim().toUpperCase(Locale.US);
   }
 
+  private String normalizeCardNumber(String cardNumber) {
+    return cardNumber == null ? "" : cardNumber.replaceAll("\\s+", "");
+  }
+
   private String normalizeIp(String clientIp) {
     if (clientIp == null || clientIp.isBlank()) return "127.0.0.1";
     return clientIp.contains(":") ? "127.0.0.1" : clientIp;
+  }
+
+  private String normalizeReference(String value) {
+    if (value == null) return null;
+    String normalized = value.trim();
+    return normalized.isBlank() ? null : normalized;
+  }
+
+  private String buildSeatItemId(Ticket ticket) {
+    if (ticket == null || ticket.getSeat() == null || ticket.getSeat().getSeatNumber() == null) {
+      return null;
+    }
+    return "seat-" + ticket.getSeat().getSeatNumber();
+  }
+
+  private boolean isLocalReference(String value) {
+    return value != null
+        && (value.startsWith(LOCAL_PAYMENT_PREFIX) || value.startsWith(LOCAL_TRANSACTION_PREFIX));
   }
 
   private String[] splitName(String preferred, String fallback) {

@@ -26,6 +26,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Locale;
@@ -170,8 +171,13 @@ public class BookingService {
     return ticketRepository.findByUser(user).stream().map(this::toDto).toList();
   }
 
-  public List<TicketDto> listAllTickets() {
-    return ticketRepository.findAll().stream().map(this::toDto).toList();
+  public List<TicketDto> listAllTickets(User admin) {
+    String managedCompany = managedCompanyName(admin);
+    List<Ticket> tickets =
+        managedCompany == null
+            ? ticketRepository.findAllByOrderByCreatedAtDesc()
+            : ticketRepository.findByTrip_Company_NameIgnoreCaseOrderByCreatedAtDesc(managedCompany);
+    return tickets.stream().map(this::toDto).toList();
   }
 
   @Transactional
@@ -199,12 +205,14 @@ public class BookingService {
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     BigDecimal balanceAfter = null;
+    boolean sandboxRefunded = false;
     String refundReference = "RFND-" + UUID.randomUUID().toString().replace("-", "");
     if (originalPayment != null && "iyzico".equalsIgnoreCase(originalPayment.getProvider())) {
       IyziPaymentService.IyziRefundResult refundResult =
           iyziPaymentService.refundTicket(user, ticket, refundedAmount);
       balanceAfter = refundResult.balanceAfter();
       refundReference = refundResult.reference();
+      sandboxRefunded = !refundResult.localFallback();
     } else {
       balanceAfter = iyziPaymentService.creditDemoBalance(user, refundedAmount);
       refundReference = "LOCAL-REFUND-" + UUID.randomUUID();
@@ -231,7 +239,11 @@ public class BookingService {
         ticket.getId().toString(),
         refundedAmount,
         balanceAfter,
-        "Ticket cancelled successfully.");
+        refundReference,
+        sandboxRefunded,
+        sandboxRefunded
+            ? "Ticket cancelled. Refund sent to iyzico sandbox."
+            : "Ticket cancelled successfully.");
   }
 
   private BigDecimal computePrice(BigDecimal basePrice, Seat seat) {
@@ -270,18 +282,48 @@ public class BookingService {
       List<Ticket> createdTickets,
       String paymentReference,
       Reservation reservation) {
-    if (createdTickets == null || createdTickets.isEmpty()) return;
+    List<BookingConfirmationMailEvent.RecipientBookingMail> recipients =
+        buildBookingMailRecipients(user, createdTickets);
+    if (recipients.isEmpty()) return;
 
-    Map<String, List<Ticket>> groupedByEmail = new HashMap<>();
+    String bookingReference =
+        !valueOrEmpty(paymentReference).isBlank()
+            ? paymentReference
+            : reservation.getId() == null ? "" : reservation.getId().toString();
+    eventPublisher.publishEvent(
+        new BookingConfirmationMailEvent(
+            recipients,
+            trip.getFromCity().getName() + " -> " + trip.getToCity().getName(),
+            trip.getDepartureTime().toString(),
+            trip.getCompany().getName(),
+            bookingReference));
+  }
+
+  List<BookingConfirmationMailEvent.RecipientBookingMail> buildBookingMailRecipients(
+      User user, List<Ticket> createdTickets) {
+    if (createdTickets == null || createdTickets.isEmpty()) return List.of();
+
+    String accountEmail = normalizeEmail(user == null ? null : user.getEmail());
+    String accountName =
+        user == null || user.getUsername() == null || user.getUsername().isBlank()
+            ? "Yolcu"
+            : user.getUsername();
+
+    Map<String, List<Ticket>> groupedByEmail = new LinkedHashMap<>();
     for (Ticket ticket : createdTickets) {
-      String email = normalizeEmail(ticket.getPassengerEmail());
-      if (email.isBlank()) {
-        email = normalizeEmail(user.getEmail());
+      Set<String> recipientEmails = new HashSet<>();
+      String passengerEmail = normalizeEmail(ticket == null ? null : ticket.getPassengerEmail());
+      if (!passengerEmail.isBlank()) {
+        recipientEmails.add(passengerEmail);
       }
-      if (email.isBlank()) continue;
-      groupedByEmail.computeIfAbsent(email, key -> new ArrayList<>()).add(ticket);
+      if (!accountEmail.isBlank()) {
+        recipientEmails.add(accountEmail);
+      }
+      for (String email : recipientEmails) {
+        groupedByEmail.computeIfAbsent(email, key -> new ArrayList<>()).add(ticket);
+      }
     }
-    if (groupedByEmail.isEmpty()) return;
+    if (groupedByEmail.isEmpty()) return List.of();
 
     List<BookingConfirmationMailEvent.RecipientBookingMail> recipients = new ArrayList<>();
     for (Map.Entry<String, List<Ticket>> entry : groupedByEmail.entrySet()) {
@@ -297,23 +339,9 @@ public class BookingService {
       }
       recipients.add(
           new BookingConfirmationMailEvent.RecipientBookingMail(
-              entry.getKey(),
-              user.getUsername(),
-              recipientTotal,
-              lines));
+              entry.getKey(), accountName, recipientTotal, lines));
     }
-
-    String bookingReference =
-        !valueOrEmpty(paymentReference).isBlank()
-            ? paymentReference
-            : reservation.getId() == null ? "" : reservation.getId().toString();
-    eventPublisher.publishEvent(
-        new BookingConfirmationMailEvent(
-            recipients,
-            trip.getFromCity().getName() + " -> " + trip.getToCity().getName(),
-            trip.getDepartureTime().toString(),
-            trip.getCompany().getName(),
-            bookingReference));
+    return recipients;
   }
 
   private TicketDto toDto(Ticket ticket) {
@@ -364,5 +392,11 @@ public class BookingService {
 
   private String normalizeEmail(String email) {
     return email == null ? "" : email.trim().toLowerCase(Locale.US);
+  }
+
+  private String managedCompanyName(User admin) {
+    if (admin == null || admin.getCompanyName() == null) return null;
+    String normalized = admin.getCompanyName().trim();
+    return normalized.isBlank() ? null : normalized;
   }
 }

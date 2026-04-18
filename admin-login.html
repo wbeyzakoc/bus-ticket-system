@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BusGo | Admin Login</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=20260416_17" />
   </head>
   <body data-page="admin-login">
     <header class="topbar">
@@ -25,11 +25,19 @@
           <label><span>Password</span><input id="adminLoginPassword" type="password" autocomplete="current-password" required /></label>
           <button type="submit" class="btn btn-primary">Login as Admin</button>
         </form>
+        <div class="forgot-box">
+          <button type="button" id="adminForgotToggle" class="btn ghost forgot-toggle">Forgot My Password</button>
+          <form id="adminForgotForm" class="forgot-form" hidden>
+            <label><span>Email</span><input id="adminForgotEmail" type="email" autocomplete="email" required /></label>
+            <button type="submit" class="btn btn-primary">Create Temporary Password</button>
+          </form>
+          <div id="adminForgotResult" class="forgot-result subtle" hidden></div>
+        </div>
         <p class="subtle small" style="margin: 14px 0 0;">Default admin: admin@busgo.com / 1234</p>
       </section>
     </main>
 
     <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
-    <script src="script.js"></script>
+    <script src="script.js?v=20260416_19"></script>
   </body>
 </html>

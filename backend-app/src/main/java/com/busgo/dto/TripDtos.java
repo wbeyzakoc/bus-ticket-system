@@ -3,6 +3,8 @@ package com.busgo.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 
 public class TripDtos {
@@ -20,6 +22,14 @@ public class TripDtos {
       boolean admin) {}
 
   public record NearestTripsResponse(String date, java.util.List<TripDto> trips) {}
+
+  public record ChatTripSearchRequest(
+      @NotBlank @Size(max = 80) String from,
+      @NotBlank @Size(max = 80) String to,
+      @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}") String date,
+      boolean preferNearest) {}
+
+  public record ChatTripSearchResponse(String requestedDate, String matchType, java.util.List<TripDto> trips) {}
 
   @JsonIgnoreProperties(ignoreUnknown = true)
   public record TripPayload(

@@ -1,0 +1,6 @@
+.DS_Store
+.env.local
+.run/
+.mysql-data/
+.mysql57-data/
+backend-app/target/

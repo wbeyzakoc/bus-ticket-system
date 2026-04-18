@@ -6,6 +6,7 @@ import com.busgo.dto.AdminCatalogDtos.CompanyDto;
 import com.busgo.dto.AdminCatalogDtos.CompanyRequest;
 import com.busgo.model.BusCompany;
 import com.busgo.model.City;
+import com.busgo.model.User;
 import com.busgo.repo.BusCompanyRepository;
 import com.busgo.repo.CityRepository;
 import java.time.Instant;
@@ -20,6 +21,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class AdminCatalogService {
+  private static final String COMPANY_MANAGER_EMAIL = "admin@busgo.com";
+  private static final String COMPANY_MANAGER_ONLY_MESSAGE =
+      "Only admin@busgo.com can manage companies";
+
   private final CityRepository cityRepository;
   private final BusCompanyRepository companyRepository;
 
@@ -33,6 +38,17 @@ public class AdminCatalogService {
   }
 
   public List<CompanyDto> listCompanies() {
+    return companyRepository.findAll().stream().map(this::toDto).toList();
+  }
+
+  public List<CompanyDto> listCompanies(User admin) {
+    if (canManageCompanies(admin)) {
+      return companyRepository.findAll().stream().map(this::toDto).toList();
+    }
+    String managedCompany = managedCompanyName(admin);
+    if (managedCompany != null) {
+      return List.of(toDto(ensureCompany(managedCompany)));
+    }
     return companyRepository.findAll().stream().map(this::toDto).toList();
   }
 
@@ -50,16 +66,19 @@ public class AdminCatalogService {
   }
 
   @Transactional
-  public CompanyDto createCompany(CompanyRequest request) {
+  public CompanyDto createCompany(User admin, CompanyRequest request) {
+    requireCompanyManager(admin);
+
     String name = normalizeName(request.name());
     if (companyRepository.findByNameIgnoreCase(name).isPresent()) {
       throw new ResponseStatusException(HttpStatus.CONFLICT, "Company already exists");
     }
+
     BusCompany company = new BusCompany();
     company.setName(name);
-    company.setPhone(valueOrEmpty(request.phone()));
-    company.setEmail(valueOrEmpty(request.email()));
-    company.setLogoUrl(valueOrEmpty(request.logoUrl()));
+    company.setPhone(valueOrNull(request.phone()));
+    company.setEmail(valueOrNull(request.email()));
+    company.setLogoUrl(valueOrNull(request.logoUrl()));
     company.setCreatedAt(Instant.now());
     return toDto(companyRepository.save(company));
   }
@@ -78,7 +97,8 @@ public class AdminCatalogService {
   }
 
   @Transactional
-  public void deleteCompany(String id) {
+  public void deleteCompany(User admin, String id) {
+    requireCompanyManager(admin);
     UUID uuid = parseUuid(id);
     if (!companyRepository.existsById(uuid)) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found");
@@ -115,8 +135,39 @@ public class AdminCatalogService {
     return code.trim().toUpperCase(Locale.US);
   }
 
-  private String valueOrEmpty(String value) {
-    return value == null ? null : value.trim();
+  private String valueOrNull(String value) {
+    if (value == null) return null;
+    String normalized = value.trim();
+    return normalized.isBlank() ? null : normalized;
+  }
+
+  private void requireCompanyManager(User admin) {
+    if (!canManageCompanies(admin)) {
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN, COMPANY_MANAGER_ONLY_MESSAGE);
+    }
+  }
+
+  private boolean canManageCompanies(User admin) {
+    if (admin == null || admin.getEmail() == null) return false;
+    return admin.getEmail().trim().toLowerCase(Locale.US).equals(COMPANY_MANAGER_EMAIL);
+  }
+
+  private BusCompany ensureCompany(String name) {
+    String normalized = normalizeName(name);
+    return companyRepository.findByNameIgnoreCase(normalized)
+        .orElseGet(
+            () -> {
+              BusCompany company = new BusCompany();
+              company.setName(normalized);
+              company.setCreatedAt(Instant.now());
+              return companyRepository.save(company);
+            });
+  }
+
+  private String managedCompanyName(User admin) {
+    if (admin == null || admin.getCompanyName() == null) return null;
+    String normalized = admin.getCompanyName().trim();
+    return normalized.isBlank() ? null : normalized;
   }
 
   private UUID parseUuid(String id) {

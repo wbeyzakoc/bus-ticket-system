@@ -1,5 +1,7 @@
 package com.busgo.controller;
 
+import com.busgo.dto.AdminUserDtos.CreateAdminRequest;
+import com.busgo.dto.AdminUserDtos.CreateAdminResponse;
 import com.busgo.dto.AdminCatalogDtos.CityDto;
 import com.busgo.dto.AdminCatalogDtos.CityRequest;
 import com.busgo.dto.AdminCatalogDtos.CompanyDto;
@@ -7,6 +9,7 @@ import com.busgo.dto.AdminCatalogDtos.CompanyRequest;
 import com.busgo.dto.BookingDtos.TicketDto;
 import com.busgo.dto.TripDtos.AdminTripRequest;
 import com.busgo.dto.TripDtos.TripDto;
+import com.busgo.model.User;
 import com.busgo.service.AuthService;
 import com.busgo.service.AdminCatalogService;
 import com.busgo.service.BookingService;
@@ -45,33 +48,33 @@ public class AdminController {
 
   @GetMapping("/trips")
   public List<TripDto> listTrips(HttpServletRequest request) {
-    authService.requireAdmin(request);
-    return tripService.listAdminTrips();
+    User admin = authService.requireAdmin(request);
+    return tripService.listAdminTrips(admin);
   }
 
   @PostMapping("/trips")
   public TripDto createTrip(@Valid @RequestBody AdminTripRequest request, HttpServletRequest httpRequest) {
-    authService.requireAdmin(httpRequest);
-    return tripService.createAdminTrip(request);
+    User admin = authService.requireAdmin(httpRequest);
+    return tripService.createAdminTrip(admin, request);
   }
 
   @PutMapping("/trips/{id}")
   public TripDto updateTrip(@PathVariable String id, @Valid @RequestBody AdminTripRequest request, HttpServletRequest httpRequest) {
-    authService.requireAdmin(httpRequest);
-    return tripService.updateAdminTrip(id, request);
+    User admin = authService.requireAdmin(httpRequest);
+    return tripService.updateAdminTrip(admin, id, request);
   }
 
   @DeleteMapping("/trips/{id}")
   public ResponseEntity<Void> deleteTrip(@PathVariable String id, HttpServletRequest httpRequest) {
-    authService.requireAdmin(httpRequest);
-    tripService.deleteAdminTrip(id);
+    User admin = authService.requireAdmin(httpRequest);
+    tripService.deleteAdminTrip(admin, id);
     return ResponseEntity.noContent().build();
   }
 
   @GetMapping("/tickets")
   public List<TicketDto> listAllTickets(HttpServletRequest request) {
-    authService.requireAdmin(request);
-    return bookingService.listAllTickets();
+    User admin = authService.requireAdmin(request);
+    return bookingService.listAllTickets(admin);
   }
 
   @GetMapping("/cities")
@@ -95,20 +98,27 @@ public class AdminController {
 
   @GetMapping("/companies")
   public List<CompanyDto> listCompanies(HttpServletRequest request) {
-    authService.requireAdmin(request);
-    return catalogService.listCompanies();
+    User admin = authService.requireAdmin(request);
+    return catalogService.listCompanies(admin);
   }
 
   @PostMapping("/companies")
   public CompanyDto createCompany(@Valid @RequestBody CompanyRequest request, HttpServletRequest httpRequest) {
-    authService.requireAdmin(httpRequest);
-    return catalogService.createCompany(request);
+    User admin = authService.requireAdmin(httpRequest);
+    return catalogService.createCompany(admin, request);
   }
 
   @DeleteMapping("/companies/{id}")
   public ResponseEntity<Void> deleteCompany(@PathVariable String id, HttpServletRequest httpRequest) {
-    authService.requireAdmin(httpRequest);
-    catalogService.deleteCompany(id);
+    User admin = authService.requireAdmin(httpRequest);
+    catalogService.deleteCompany(admin, id);
     return ResponseEntity.noContent().build();
+  }
+
+  @PostMapping("/users/admin")
+  public CreateAdminResponse createAdmin(
+      @Valid @RequestBody CreateAdminRequest request, HttpServletRequest httpRequest) {
+    User admin = authService.requireAdmin(httpRequest);
+    return authService.createAdmin(admin, request);
   }
 }

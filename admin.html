@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BusGo | Admin</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=20260416_17" />
   </head>
   <body data-page="admin">
     <header class="topbar">
@@ -18,6 +18,28 @@
 
     <main class="page admin-layout">
       <section class="panel reveal">
+        <h1>Manage Cities</h1>
+        <form id="adminCityForm" class="admin-form">
+          <label><span>City Name</span><input id="adminCityName" type="text" required /></label>
+          <label><span>Country Code</span><input id="adminCityCountry" type="text" maxlength="2" placeholder="TR" /></label>
+          <button class="btn btn-primary" type="submit">Add City</button>
+        </form>
+        <div id="adminCityList" class="admin-list admin-list-group"></div>
+      </section>
+
+      <section id="adminCompaniesSection" class="panel reveal">
+        <h1>Manage Companies</h1>
+        <form id="adminCompanyForm" class="admin-form">
+          <label><span>Company Name</span><input id="adminCompanyName" type="text" required /></label>
+          <label><span>Phone</span><input id="adminCompanyPhone" type="text" /></label>
+          <label><span>Email</span><input id="adminCompanyEmail" type="email" /></label>
+          <label><span>Logo URL</span><input id="adminCompanyLogo" type="text" /></label>
+          <button class="btn btn-primary" type="submit">Add Company</button>
+        </form>
+        <div id="adminCompanyList" class="admin-list"></div>
+      </section>
+
+      <section class="panel reveal">
         <h1>Create / Edit Trip</h1>
         <form id="adminTripForm" class="admin-form">
           <label><span>From</span><select id="adminFrom"><option value="">Select</option></select></label>
@@ -25,23 +47,23 @@
           <label><span>Date</span><input id="adminDate" type="date" required /></label>
           <label><span>Time</span><input id="adminTime" type="time" required /></label>
           <label><span>Price</span><input id="adminPrice" type="number" min="1" step="0.01" required /></label>
-          <label><span>Company</span><input id="adminCompany" type="text" required /></label>
+          <label><span>Company</span><select id="adminCompany" required><option value="">Select</option></select></label>
           <button class="btn btn-primary" type="submit">Save Trip</button>
         </form>
       </section>
 
       <section class="panel reveal">
         <h2>Trips</h2>
-        <div id="adminTripList" class="admin-list"></div>
+        <div id="adminTripList" class="admin-list admin-jlist"></div>
       </section>
 
       <section class="panel reveal">
         <h2>Bookings</h2>
-        <div id="adminBookings" class="admin-list"></div>
+        <div id="adminBookings" class="admin-list admin-jlist"></div>
       </section>
     </main>
 
     <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
-    <script src="script.js"></script>
+    <script src="script.js?v=20260417_01"></script>
   </body>
 </html>

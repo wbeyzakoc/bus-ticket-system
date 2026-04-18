@@ -1,6 +1,8 @@
 package com.busgo.controller;
 
 import com.busgo.dto.AuthDtos.AuthResponse;
+import com.busgo.dto.AuthDtos.ForgotPasswordRequest;
+import com.busgo.dto.AuthDtos.ForgotPasswordResponse;
 import com.busgo.dto.AuthDtos.LoginRequest;
 import com.busgo.dto.AuthDtos.RegisterRequest;
 import com.busgo.dto.UserDto;
@@ -33,6 +35,11 @@ public class AuthController {
   @PostMapping("/login")
   public AuthResponse login(@Valid @RequestBody LoginRequest request) {
     return authService.login(request);
+  }
+
+  @PostMapping("/forgot-password")
+  public ForgotPasswordResponse forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
+    return authService.forgotPassword(request);
   }
 
   @GetMapping("/me")

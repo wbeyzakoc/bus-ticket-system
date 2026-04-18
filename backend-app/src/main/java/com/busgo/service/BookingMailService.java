@@ -67,6 +67,36 @@ public class BookingMailService {
     }
   }
 
+  public void sendPasswordResetMail(String email, String userName, String temporaryPassword) {
+    String recipientEmail = email == null ? "" : email.trim();
+    if (recipientEmail.isBlank()) {
+      throw new IllegalStateException("Password reset email could not be sent because recipient email is missing.");
+    }
+
+    JavaMailSender mailSender = mailSenderProvider.getIfAvailable();
+    if (mailSender == null) {
+      throw new IllegalStateException("Mail service is not configured.");
+    }
+
+    String from = resolveFromAddress();
+    if (from.isBlank()) {
+      throw new IllegalStateException("Mail sender address is not configured.");
+    }
+
+    SimpleMailMessage message = new SimpleMailMessage();
+    message.setFrom(from);
+    message.setTo(recipientEmail);
+    message.setSubject(subjectPrefix + " Sifre sifirlama");
+    message.setText(buildPasswordResetBody(userName, recipientEmail, temporaryPassword));
+
+    try {
+      mailSender.send(message);
+    } catch (MailException ex) {
+      log.warn("Password reset email could not be sent to {}", recipientEmail, ex);
+      throw new IllegalStateException("Password reset email could not be sent right now.");
+    }
+  }
+
   private SimpleMailMessage buildMessage(
       String from, RecipientBookingMail recipient, BookingConfirmationMailEvent event) {
     SimpleMailMessage message = new SimpleMailMessage();
@@ -90,6 +120,19 @@ public class BookingMailService {
     body.append('\n');
     body.append("Toplam: ").append(formatMoney(recipient.total())).append("\n\n");
     body.append("Iyi yolculuklar,\nBusGo");
+    return body.toString();
+  }
+
+  private String buildPasswordResetBody(
+      String userName, String recipientEmail, String temporaryPassword) {
+    String displayName = nullToFallback(userName, recipientEmail);
+
+    StringBuilder body = new StringBuilder();
+    body.append("Merhaba ").append(displayName).append(",\n\n");
+    body.append("BusGo hesabiniza ait gecici sifreniz olusturuldu.\n\n");
+    body.append("Gecici sifre: ").append(nullToFallback(temporaryPassword, "-")).append('\n');
+    body.append("Giris yaptiktan sonra sifrenizi degistirmenizi oneririz.\n\n");
+    body.append("BusGo");
     return body.toString();
   }
 

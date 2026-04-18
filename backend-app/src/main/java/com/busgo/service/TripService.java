@@ -1,6 +1,8 @@
 package com.busgo.service;
 
 import com.busgo.dto.TripDtos.AdminTripRequest;
+import com.busgo.dto.TripDtos.ChatTripSearchRequest;
+import com.busgo.dto.TripDtos.ChatTripSearchResponse;
 import com.busgo.dto.TripDtos.NearestTripsResponse;
 import com.busgo.dto.TripDtos.TripDto;
 import com.busgo.model.Bus;
@@ -9,6 +11,7 @@ import com.busgo.model.City;
 import com.busgo.model.Seat;
 import com.busgo.model.Trip;
 import com.busgo.model.TripStatus;
+import com.busgo.model.User;
 import com.busgo.repo.BusCompanyRepository;
 import com.busgo.repo.BusRepository;
 import com.busgo.repo.CityRepository;
@@ -21,6 +24,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -38,6 +42,7 @@ public class TripService {
       "https://images.unsplash.com/photo-1464219789935-c2d9d9aba644?auto=format&fit=crop&w=900&q=80";
   private static final int DEFAULT_ROWS = 10;
   private static final int DEFAULT_COLS = 4;
+  private static final int CHATBOT_RESULT_LIMIT = 5;
   private static final Set<Integer> VIP_ROWS = Set.of(1);
 
   private final CityRepository cityRepository;
@@ -77,6 +82,68 @@ public class TripService {
     return trips.stream().sorted(Comparator.comparing(Trip::getDepartureTime)).map(this::toTripDto).toList();
   }
 
+  public ChatTripSearchResponse searchTripsForChat(ChatTripSearchRequest request) {
+    if (request == null) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Search request is required");
+    }
+
+    City fromCity = findExistingCity(request.from());
+    City toCity = findExistingCity(request.to());
+    validatePublicRoute(fromCity, toCity);
+
+    if ((request.date() == null || request.date().isBlank()) && request.preferNearest()) {
+      return findNearestUpcomingTripsForRoute(fromCity, toCity);
+    }
+
+    if (request.date() == null || request.date().isBlank()) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "date is required");
+    }
+
+    LocalDate travelDate = parseDate(request.date());
+
+    List<TripDto> exactTrips = findTripsForDate(fromCity, toCity, travelDate);
+    if (!exactTrips.isEmpty()) {
+      return new ChatTripSearchResponse(travelDate.toString(), "exact", exactTrips);
+    }
+
+    List<TripDto> nearestTrips =
+        tripRepository.findByFromCityAndToCityOrderByDepartureTimeAsc(fromCity, toCity).stream()
+            .filter(trip -> trip.getDepartureTime() != null)
+            .sorted(
+                Comparator
+                    .comparingLong(
+                        (Trip trip) -> Math.abs(ChronoUnit.DAYS.between(travelDate, trip.getDepartureTime().toLocalDate())))
+                    .thenComparing(Trip::getDepartureTime))
+            .limit(CHATBOT_RESULT_LIMIT)
+            .map(this::toTripDto)
+            .toList();
+
+    return new ChatTripSearchResponse(travelDate.toString(), nearestTrips.isEmpty() ? "none" : "nearest", nearestTrips);
+  }
+
+  private ChatTripSearchResponse findNearestUpcomingTripsForRoute(City fromCity, City toCity) {
+    LocalDateTime now = LocalDateTime.now();
+    List<Trip> futureTrips =
+        tripRepository.findByFromCityAndToCityOrderByDepartureTimeAsc(fromCity, toCity).stream()
+            .filter(trip -> trip.getDepartureTime() != null && !trip.getDepartureTime().isBefore(now))
+            .toList();
+
+    if (futureTrips.isEmpty()) {
+      return new ChatTripSearchResponse(LocalDate.now().toString(), "none", List.of());
+    }
+
+    LocalDate nearestDate = futureTrips.getFirst().getDepartureTime().toLocalDate();
+    List<TripDto> trips =
+        futureTrips.stream()
+            .filter(trip -> trip.getDepartureTime().toLocalDate().equals(nearestDate))
+            .sorted(Comparator.comparing(Trip::getDepartureTime))
+            .limit(CHATBOT_RESULT_LIMIT)
+            .map(this::toTripDto)
+            .toList();
+
+    return new ChatTripSearchResponse(nearestDate.toString(), "route-nearest", trips);
+  }
+
   public NearestTripsResponse findNearestTrips(String from, String to, String date) {
     if (from == null || from.isBlank() || to == null || to.isBlank() || date == null || date.isBlank()) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "from, to, and date are required");
@@ -109,14 +176,24 @@ public class TripService {
     return new NearestTripsResponse(closestDate.toString(), mapped);
   }
 
-  public List<TripDto> listAdminTrips() {
-    return tripRepository.findAll().stream().sorted(Comparator.comparing(Trip::getDepartureTime)).map(this::toTripDto).toList();
+  public List<TripDto> listAdminTrips(User admin) {
+    String managedCompany = managedCompanyName(admin);
+    if (managedCompany == null) {
+      return tripRepository.findAll().stream()
+          .sorted(Comparator.comparing(Trip::getDepartureTime))
+          .map(this::toTripDto)
+          .toList();
+    }
+    return tripRepository.findByCompany_NameIgnoreCaseOrderByDepartureTimeAsc(managedCompany).stream()
+        .map(this::toTripDto)
+        .toList();
   }
 
-  public TripDto createAdminTrip(AdminTripRequest request) {
+  public TripDto createAdminTrip(User admin, AdminTripRequest request) {
     City fromCity = ensureCity(request.from());
     City toCity = ensureCity(request.to());
-    BusCompany company = ensureCompany(request.company());
+    String managedCompany = managedCompanyName(admin);
+    BusCompany company = ensureCompany(managedCompany == null ? request.company() : managedCompany);
     Bus bus = ensureCompanyBus(company);
 
     Trip trip = new Trip();
@@ -134,13 +211,13 @@ public class TripService {
     return toTripDto(trip);
   }
 
-  public TripDto updateAdminTrip(String id, AdminTripRequest request) {
-    Trip trip = tripRepository.findById(parseUuid(id))
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Trip not found"));
+  public TripDto updateAdminTrip(User admin, String id, AdminTripRequest request) {
+    Trip trip = findAdminTrip(admin, id);
 
     City fromCity = ensureCity(request.from());
     City toCity = ensureCity(request.to());
-    BusCompany company = ensureCompany(request.company());
+    String managedCompany = managedCompanyName(admin);
+    BusCompany company = ensureCompany(managedCompany == null ? request.company() : managedCompany);
     Bus bus = ensureCompanyBus(company);
 
     trip.setFromCity(fromCity);
@@ -154,13 +231,10 @@ public class TripService {
     return toTripDto(trip);
   }
 
-  public void deleteAdminTrip(String id) {
-    UUID uuid = parseUuid(id);
+  public void deleteAdminTrip(User admin, String id) {
+    Trip trip = findAdminTrip(admin, id);
     try {
-      if (!tripRepository.existsById(uuid)) {
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Trip not found");
-      }
-      tripRepository.deleteById(uuid);
+      tripRepository.delete(trip);
     } catch (DataIntegrityViolationException ex) {
       throw new ResponseStatusException(HttpStatus.CONFLICT, "Trip has existing bookings");
     }
@@ -214,6 +288,41 @@ public class TripService {
           city.setCreatedAt(Instant.now());
           return cityRepository.save(city);
         });
+  }
+
+  private City findExistingCity(String name) {
+    String trimmed = normalizePublicValue(name, "city");
+    return cityRepository.findByNameIgnoreCase(trimmed)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unknown city"));
+  }
+
+  private List<TripDto> findTripsForDate(City fromCity, City toCity, LocalDate travelDate) {
+    LocalDateTime start = travelDate.atStartOfDay();
+    LocalDateTime end = travelDate.atTime(LocalTime.MAX);
+    return tripRepository.findByFromCityAndToCityAndDepartureTimeBetween(fromCity, toCity, start, end).stream()
+        .sorted(Comparator.comparing(Trip::getDepartureTime))
+        .map(this::toTripDto)
+        .toList();
+  }
+
+  private void validatePublicRoute(City fromCity, City toCity) {
+    if (fromCity.getName() != null && fromCity.getName().equalsIgnoreCase(toCity.getName())) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Origin and destination cannot be the same");
+    }
+  }
+
+  private String normalizePublicValue(String value, String fieldName) {
+    if (value == null) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, fieldName + " is required");
+    }
+    String trimmed = value.trim();
+    if (trimmed.isBlank()) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, fieldName + " is required");
+    }
+    if (trimmed.length() > 80) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, fieldName + " is too long");
+    }
+    return trimmed;
   }
 
   private BusCompany ensureCompany(String name) {
@@ -288,5 +397,22 @@ public class TripService {
     } catch (IllegalArgumentException ex) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid trip id");
     }
+  }
+
+  private Trip findAdminTrip(User admin, String id) {
+    UUID uuid = parseUuid(id);
+    String managedCompany = managedCompanyName(admin);
+    if (managedCompany == null) {
+      return tripRepository.findById(uuid)
+          .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Trip not found"));
+    }
+    return tripRepository.findByIdAndCompany_NameIgnoreCase(uuid, managedCompany)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Trip not found"));
+  }
+
+  private String managedCompanyName(User admin) {
+    if (admin == null || admin.getCompanyName() == null) return null;
+    String normalized = admin.getCompanyName().trim();
+    return normalized.isBlank() ? null : normalized;
   }
 }

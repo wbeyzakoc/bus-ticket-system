@@ -55,7 +55,12 @@ public class BookingDtos {
       long createdAt) {}
 
   public record CancelTicketResponse(
-      String id, BigDecimal refundedAmount, BigDecimal balanceAfter, String message) {}
+      String id,
+      BigDecimal refundedAmount,
+      BigDecimal balanceAfter,
+      String refundReference,
+      boolean sandboxRefunded,
+      String message) {}
 
   public record BookingResponse(List<TicketDto> tickets, BigDecimal total) {}
 }
