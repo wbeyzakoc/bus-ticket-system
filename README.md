@@ -30,6 +30,9 @@ Notlar:
 - Seed kullanicilar:
   - `user@busgo.com` / `1234`
   - `admin@busgo.com` / `1234`
+  - `erzurum-admin@busgo.local` / `1234`
+  - `sivas-admin@busgo.local` / `1234`
+  - `van-admin@busgo.local` / `1234`
 
 ## Komutlar
 
@@ -38,6 +41,49 @@ Notlar:
 ./scripts/dev.sh down
 ./scripts/dev.sh restart
 ./scripts/dev.sh status
+```
+
+## MySQL Dump
+
+Repo'ya koyulabilir public seed dump uretmek icin:
+
+```bash
+./scripts/db-export.sh
+```
+
+Bu komut `database/busgo.sql` dosyasini uretir. Varsayilan mod public seed'dir:
+
+- `auth_tokens`, `payments`, `reservations`, `tickets` bos birakilir
+- demo hesaplar korunur
+- gercek e-posta ve telefonlar sanitize edilir
+
+Ham local dump gerekiyorsa:
+
+```bash
+BUSGO_DB_EXPORT_MODE=private ./scripts/db-export.sh /tmp/busgo-private.sql
+```
+
+Clone alan kisi kendi MySQL'ine aktarmak icin:
+
+```bash
+./scripts/db-import.sh
+```
+
+Varsayilan akista script:
+
+- `busgo` veritabanini olusturur
+- `busgo` kullanicisini olusturur
+- `database/busgo.sql` dosyasini import eder
+
+Not:
+
+- Import icin once MySQL calisiyor olmali.
+- Repo icindeki `database/busgo.sql` dosyasi public paylasim icin sanitize edilmistir.
+- `docker-compose.yml` ile gelen local MySQL kullanilacaksa:
+
+```bash
+docker compose up -d db
+./scripts/db-import.sh
 ```
 
 ## Adresler
