@@ -18,3 +18,15 @@ Import etmek icin:
 ```bash
 ./scripts/db-import.sh
 ```
+
+Windows PowerShell:
+
+```powershell
+.\scripts\db-import.ps1
+```
+
+Windows CMD:
+
+```cmd
+scripts\db-import.cmd
+```

@@ -19,6 +19,20 @@ BusGo frontend + Spring Boot backend + MySQL gelistirme ortami.
 ./scripts/dev.sh up
 ```
 
+Windows PowerShell icin:
+
+```powershell
+Set-Location "C:\path\to\bus-ticket-system"
+.\scripts\dev.ps1 up
+```
+
+Windows CMD icin:
+
+```cmd
+cd /d C:\path\to\bus-ticket-system
+scripts\dev.cmd up
+```
+
 Notlar:
 
 - `3306` portunda bir MySQL yoksa ve Docker Compose varsa script otomatik olarak `docker-compose.yml` icindeki MySQL servisini kaldirir.
@@ -41,6 +55,24 @@ Notlar:
 ./scripts/dev.sh down
 ./scripts/dev.sh restart
 ./scripts/dev.sh status
+```
+
+Windows PowerShell:
+
+```powershell
+.\scripts\dev.ps1 up
+.\scripts\dev.ps1 down
+.\scripts\dev.ps1 restart
+.\scripts\dev.ps1 status
+```
+
+Windows CMD:
+
+```cmd
+scripts\dev.cmd up
+scripts\dev.cmd down
+scripts\dev.cmd restart
+scripts\dev.cmd status
 ```
 
 ## MySQL Dump
@@ -69,6 +101,18 @@ Clone alan kisi kendi MySQL'ine aktarmak icin:
 ./scripts/db-import.sh
 ```
 
+Windows PowerShell:
+
+```powershell
+.\scripts\db-import.ps1
+```
+
+Windows CMD:
+
+```cmd
+scripts\db-import.cmd
+```
+
 Varsayilan akista script:
 
 - `busgo` veritabanini olusturur
@@ -84,6 +128,20 @@ Not:
 ```bash
 docker compose up -d db
 ./scripts/db-import.sh
+```
+
+Windows PowerShell:
+
+```powershell
+docker compose up -d db
+.\scripts\db-import.ps1
+```
+
+Windows CMD:
+
+```cmd
+docker compose up -d db
+scripts\db-import.cmd
 ```
 
 ## Adresler
