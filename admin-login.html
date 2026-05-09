@@ -1,15 +1,15 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BusGo | Admin Login</title>
-    <link rel="stylesheet" href="styles.css?v=20260416_17" />
+    <link rel="stylesheet" href="styles.css?v=20260509_07" />
   </head>
   <body data-page="admin-login">
     <header class="topbar">
       <div class="topbar-left">
-        <button type="button" class="back-btn" onclick="window.history.back()" aria-label="Go back">←</button>
+        <button type="button" class="back-btn" onclick="window.history.back()" aria-label="Go back">&#8592;</button>
         <a class="brand" href="index.html">BusGo</a>
         <nav class="crumbs">Admin Login</nav>
       </div>
@@ -27,17 +27,31 @@
         </form>
         <div class="forgot-box">
           <button type="button" id="adminForgotToggle" class="btn ghost forgot-toggle">Forgot My Password</button>
-          <form id="adminForgotForm" class="forgot-form" hidden>
-            <label><span>Email</span><input id="adminForgotEmail" type="email" autocomplete="email" required /></label>
-            <button type="submit" class="btn btn-primary">Create Temporary Password</button>
-          </form>
-          <div id="adminForgotResult" class="forgot-result subtle" hidden></div>
+          <div id="adminForgotModal" class="forgot-modal" hidden>
+            <div class="forgot-modal-card" role="dialog" aria-modal="true" aria-labelledby="adminForgotTitle">
+              <div class="forgot-modal-head">
+                <div>
+                  <h2 id="adminForgotTitle">Reset Password</h2>
+                  <p class="subtle small">Enter your admin email address. If an account exists, password reset instructions will be sent to you.</p>
+                </div>
+                <button type="button" class="forgot-close-btn" data-forgot-close aria-label="Close">&times;</button>
+              </div>
+              <form id="adminForgotForm" class="forgot-form">
+                <label><span>Email Address</span><input id="adminForgotEmail" type="email" autocomplete="email" required /></label>
+                <div class="forgot-actions">
+                  <button type="submit" class="btn btn-primary">Send</button>
+                  <button type="button" class="btn ghost" data-forgot-close>Cancel</button>
+                </div>
+              </form>
+              <div id="adminForgotResult" class="forgot-result subtle" hidden></div>
+            </div>
+          </div>
         </div>
         <p class="subtle small" style="margin: 14px 0 0;">Default admin: admin@busgo.com / 1234</p>
       </section>
     </main>
 
     <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
-    <script src="script.js?v=20260416_19"></script>
+    <script src="script.js?v=20260509_07"></script>
   </body>
 </html>

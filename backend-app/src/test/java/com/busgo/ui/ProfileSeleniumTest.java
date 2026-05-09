@@ -60,4 +60,17 @@ class ProfileSeleniumTest extends BaseFrontendSeleniumTest {
 
     assertTrue(pageSourceContains("No tickets yet."));
   }
+
+  @Test
+  void parentTicketShouldShowMinorTravelWarningAndHideCancelAction() {
+    prepareProfilePageWithTickets(
+        "[{\"id\":\"t1\",\"from\":\"Ankara\",\"to\":\"Izmir\",\"date\":\"2030-01-15T09:30:00\",\"company\":\"BusGo Express\",\"seatNumber\":5,"
+            + "\"passengerName\":\"Parent Passenger\",\"price\":450,\"cancellable\":false,"
+            + "\"cancellationMessage\":\"Passengers under 18 cannot travel alone. This adult ticket cannot be cancelled.\"}]");
+
+    wait.until((ignored) -> !driver.findElement(By.id("myTickets")).getText().isBlank());
+    String ticketsText = driver.findElement(By.id("myTickets")).getText();
+    assertTrue(ticketsText.contains("Passengers under 18 cannot travel alone."));
+    assertTrue(ticketsText.contains("Cancellation closed"));
+  }
 }

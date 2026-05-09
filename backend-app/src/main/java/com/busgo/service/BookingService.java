@@ -44,6 +44,8 @@ public class BookingService {
   private static final long CANCELLATION_NOTICE_DAYS = 15;
   private static final String CANCELLATION_BLOCKED_MESSAGE =
       "Tickets can only be cancelled more than 15 days before departure.";
+  private static final String MINOR_SUPERVISION_BLOCKED_MESSAGE =
+      "Passengers under 18 cannot travel alone. This adult ticket cannot be cancelled.";
 
   private final TripRepository tripRepository;
   private final SeatRepository seatRepository;
@@ -87,7 +89,6 @@ public class BookingService {
     }
 
     Set<Integer> seatSet = new HashSet<>();
-    List<TicketDto> created = new ArrayList<>();
     List<Ticket> createdTickets = new ArrayList<>();
     BigDecimal total = BigDecimal.ZERO;
     Map<Integer, PaymentItemPayload> paymentItemsBySeat = mapPaymentItems(request.paymentItems());
@@ -138,7 +139,6 @@ public class BookingService {
       ticketRepository.save(ticket);
 
       createdTickets.add(ticket);
-      created.add(toDto(ticket));
       total = total.add(price);
     }
 
@@ -164,11 +164,12 @@ public class BookingService {
 
     publishBookingMailEvent(user, trip, createdTickets, paymentReference, reservation);
 
+    List<TicketDto> created = createdTickets.stream().map(ticket -> toDto(ticket, createdTickets)).toList();
     return new BookingResponse(created, total);
   }
 
   public List<TicketDto> listTickets(User user) {
-    return ticketRepository.findByUser(user).stream().map(this::toDto).toList();
+    return mapTicketsToDtos(filterActiveTickets(ticketRepository.findByUser(user)));
   }
 
   public List<TicketDto> listAllTickets(User admin) {
@@ -177,7 +178,7 @@ public class BookingService {
         managedCompany == null
             ? ticketRepository.findAllByOrderByCreatedAtDesc()
             : ticketRepository.findByTrip_Company_NameIgnoreCaseOrderByCreatedAtDesc(managedCompany);
-    return tickets.stream().map(this::toDto).toList();
+    return mapTicketsToDtos(filterActiveTickets(tickets));
   }
 
   @Transactional
@@ -188,13 +189,13 @@ public class BookingService {
             .orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found"));
 
-    if (!canCancelTicket(ticket)) {
-      throw new ResponseStatusException(HttpStatus.CONFLICT, CANCELLATION_BLOCKED_MESSAGE);
-    }
-
     Reservation reservation = ticket.getReservation();
     List<Ticket> reservationTickets =
         ticketRepository.findByReservationOrderByCreatedAtAsc(reservation);
+    String cancellationBlockMessage = getCancellationBlockMessage(ticket, reservationTickets);
+    if (cancellationBlockMessage != null) {
+      throw new ResponseStatusException(HttpStatus.CONFLICT, cancellationBlockMessage);
+    }
     Payment originalPayment = findOriginalPayment(reservation);
 
     BigDecimal refundedAmount = ticket.getPrice();
@@ -344,8 +345,31 @@ public class BookingService {
     return recipients;
   }
 
-  private TicketDto toDto(Ticket ticket) {
-    boolean cancellable = canCancelTicket(ticket);
+  private List<TicketDto> mapTicketsToDtos(List<Ticket> tickets) {
+    Map<UUID, List<Ticket>> ticketsByReservationId = new HashMap<>();
+    for (Ticket ticket : tickets) {
+      UUID reservationId =
+          ticket.getReservation() == null ? null : ticket.getReservation().getId();
+      if (reservationId == null) continue;
+      ticketsByReservationId.computeIfAbsent(reservationId, ignored -> new ArrayList<>()).add(ticket);
+    }
+    return tickets.stream()
+        .map(
+            ticket -> {
+              UUID reservationId =
+                  ticket.getReservation() == null ? null : ticket.getReservation().getId();
+              List<Ticket> reservationTickets =
+                  reservationId == null
+                      ? List.of(ticket)
+                      : ticketsByReservationId.getOrDefault(reservationId, List.of(ticket));
+              return toDto(ticket, reservationTickets);
+            })
+        .toList();
+  }
+
+  private TicketDto toDto(Ticket ticket, List<Ticket> reservationTickets) {
+    String cancellationBlockMessage = getCancellationBlockMessage(ticket, reservationTickets);
+    boolean cancellable = cancellationBlockMessage == null;
     return new TicketDto(
         ticket.getId().toString(),
         ticket.getUser().getEmail(),
@@ -359,12 +383,46 @@ public class BookingService {
         ticket.getPrice(),
         ticket.getTrip().getCompany().getName(),
         cancellable,
-        cancellable ? null : CANCELLATION_BLOCKED_MESSAGE,
+        cancellationBlockMessage,
         ticket.getCreatedAt().toEpochMilli());
   }
 
-  private boolean canCancelTicket(Ticket ticket) {
+  private String getCancellationBlockMessage(Ticket ticket, List<Ticket> reservationTickets) {
+    if (!isCancellationWindowOpen(ticket)) {
+      return CANCELLATION_BLOCKED_MESSAGE;
+    }
+    if (wouldLeaveMinorTravellingAlone(ticket, reservationTickets)) {
+      return MINOR_SUPERVISION_BLOCKED_MESSAGE;
+    }
+    return null;
+  }
+
+  private boolean isCancellationWindowOpen(Ticket ticket) {
     return ticket.getTrip().getDepartureTime().isAfter(LocalDateTime.now().plusDays(CANCELLATION_NOTICE_DAYS));
+  }
+
+  private boolean wouldLeaveMinorTravellingAlone(Ticket ticket, List<Ticket> reservationTickets) {
+    if (ticket.getPassengerAge() == null || ticket.getPassengerAge() < 18) return false;
+
+    List<Ticket> remainingTickets =
+        reservationTickets.stream()
+            .filter(existing -> existing.getId() == null || !existing.getId().equals(ticket.getId()))
+            .toList();
+    boolean hasMinor =
+        remainingTickets.stream()
+            .anyMatch(existing -> existing.getPassengerAge() != null && existing.getPassengerAge() < 18);
+    boolean hasAdult =
+        remainingTickets.stream()
+            .anyMatch(existing -> existing.getPassengerAge() != null && existing.getPassengerAge() >= 18);
+    return hasMinor && !hasAdult;
+  }
+
+  private List<Ticket> filterActiveTickets(List<Ticket> tickets) {
+    LocalDateTime now = LocalDateTime.now();
+    return tickets.stream()
+        .filter(ticket -> ticket.getTrip() != null && ticket.getTrip().getDepartureTime() != null)
+        .filter(ticket -> ticket.getTrip().getDepartureTime().isAfter(now))
+        .toList();
   }
 
   private String resolvePaymentProvider(Reservation reservation) {

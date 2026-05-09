@@ -2591,3 +2591,499 @@ Unconditional classes:
 2026-05-05T18:24:58.614+03:00 DEBUG 16148 --- [nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Writing [[TicketDto[id=ac9f2873-319b-4d62-ade8-c0d1e6d77dbf, userEmail=sy@gmail.com, userName=sudenaz, from=e (truncated)...]
 2026-05-05T18:24:58.614+03:00 DEBUG 16148 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
 2026-05-06T14:59:39.592+03:00  WARN 16148 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=19h24m32s107ms921µs800ns).
+2026-05-07T15:03:30.216+03:00  WARN 16148 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=19h17m24s410ms266µs100ns).
+2026-05-07T15:04:26.257+03:00  WARN 16148 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m3s83ms989µs300ns).
+2026-05-07T15:12:17.404+03:00  WARN 16148 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m21s122ms338µs600ns).
+2026-05-07T16:08:15.026+03:00  WARN 16148 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=55m57s622ms87µs700ns).
+2026-05-07T20:38:10.242+03:00  WARN 16148 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4h25m8s825ms482µs400ns).
+2026-05-08T21:59:20.349+03:00  WARN 16148 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=23h50m15s442ms833µs100ns).
+2026-05-09T01:28:45.787+03:00  WARN 16148 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h24s670ms517µs600ns).
+2026-05-09T13:45:59.198+03:00  WARN 16148 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=12h17m20s819ms175µs400ns).
+2026-05-09T14:14:31.248+03:00 DEBUG 16148 --- [nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T14:14:31.252+03:00 DEBUG 16148 --- [nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T14:14:31.302+03:00 DEBUG 16148 --- [nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:14:31.303+03:00 DEBUG 16148 --- [nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T14:14:31.311+03:00 DEBUG 16148 --- [nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:15:53.580+03:00 DEBUG 16148 --- [nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : OPTIONS "/api/cities", parameters={}
+2026-05-09T14:15:53.580+03:00 DEBUG 16148 --- [nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T14:15:53.583+03:00 DEBUG 16148 --- [nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:15:53.587+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T14:15:53.588+03:00 DEBUG 16148 --- [nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T14:15:53.594+03:00 DEBUG 16148 --- [nio-8080-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:15:53.595+03:00 DEBUG 16148 --- [nio-8080-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T14:15:53.597+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:15:53.625+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T14:15:53.625+03:00 DEBUG 16148 --- [nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T14:15:53.625+03:00 DEBUG 16148 --- [nio-8080-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:15:53.625+03:00 DEBUG 16148 --- [nio-8080-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T14:15:53.625+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:40:24.564+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T14:40:24.565+03:00 DEBUG 16148 --- [nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T14:40:24.569+03:00 DEBUG 16148 --- [nio-8080-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:40:24.570+03:00 DEBUG 16148 --- [nio-8080-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T14:40:24.571+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:42:33.875+03:00 DEBUG 16148 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : OPTIONS "/api/auth/login", parameters={}
+2026-05-09T14:42:33.877+03:00 DEBUG 16148 --- [nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#login(LoginRequest)
+2026-05-09T14:42:33.878+03:00 DEBUG 16148 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:42:33.881+03:00 DEBUG 16148 --- [nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/login", parameters={}
+2026-05-09T14:42:33.881+03:00 DEBUG 16148 --- [nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#login(LoginRequest)
+2026-05-09T14:42:33.885+03:00 DEBUG 16148 --- [nio-8080-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest[email=harunmukuss@gmail.com, password=1234, role=user]]
+2026-05-09T14:42:34.005+03:00 DEBUG 16148 --- [nio-8080-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.busgo.config.ApiExceptionHandler#handleResponseStatus(ResponseStatusException, HttpServletRequest)
+2026-05-09T14:42:34.021+03:00 DEBUG 16148 --- [nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:42:34.021+03:00 DEBUG 16148 --- [nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{timestamp=2026-05-09T11:42:34.005694800Z, status=401, error=Unauthorized, message=Invalid email or  (truncated)...]
+2026-05-09T14:42:34.026+03:00 DEBUG 16148 --- [nio-8080-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 401 UNAUTHORIZED "Invalid email or password"]
+2026-05-09T14:42:34.026+03:00 DEBUG 16148 --- [nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 401 UNAUTHORIZED
+2026-05-09T14:42:42.472+03:00 DEBUG 16148 --- [nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/login", parameters={}
+2026-05-09T14:42:42.472+03:00 DEBUG 16148 --- [nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#login(LoginRequest)
+2026-05-09T14:42:42.472+03:00 DEBUG 16148 --- [nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest[email=harunmukuss@gmail.com, password=123456, role=user]]
+2026-05-09T14:42:42.601+03:00 DEBUG 16148 --- [nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:42:42.602+03:00 DEBUG 16148 --- [nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Writing [AuthResponse[token=f86bd84a-3d4e-40ee-91da-8224f26b53ac, user=UserDto[email=harunmukuss@gmail.com, u (truncated)...]
+2026-05-09T14:42:42.603+03:00 DEBUG 16148 --- [nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:42:43.445+03:00 DEBUG 16148 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : OPTIONS "/api/auth/me", parameters={}
+2026-05-09T14:42:43.446+03:00 DEBUG 16148 --- [nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#me(HttpServletRequest)
+2026-05-09T14:42:43.446+03:00 DEBUG 16148 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:42:43.450+03:00 DEBUG 16148 --- [nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/api/auth/me", parameters={}
+2026-05-09T14:42:43.450+03:00 DEBUG 16148 --- [nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#me(HttpServletRequest)
+2026-05-09T14:42:43.458+03:00 DEBUG 16148 --- [nio-8080-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:42:43.459+03:00 DEBUG 16148 --- [nio-8080-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Writing [UserDto[email=harunmukuss@gmail.com, username=harun resit müküs, role=user, demoBalance=5000.00, com (truncated)...]
+2026-05-09T14:42:43.459+03:00 DEBUG 16148 --- [nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:42:43.491+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : OPTIONS "/api/cities", parameters={}
+2026-05-09T14:42:43.492+03:00 DEBUG 16148 --- [nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T14:42:43.492+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:42:43.496+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T14:42:43.497+03:00 DEBUG 16148 --- [nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T14:42:43.502+03:00 DEBUG 16148 --- [nio-8080-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:42:43.503+03:00 DEBUG 16148 --- [nio-8080-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T14:42:43.504+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:42:43.510+03:00 DEBUG 16148 --- [nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T14:42:43.510+03:00 DEBUG 16148 --- [nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T14:42:43.514+03:00 DEBUG 16148 --- [nio-8080-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:42:43.515+03:00 DEBUG 16148 --- [nio-8080-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T14:42:43.515+03:00 DEBUG 16148 --- [nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:43:07.396+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/auth/me", parameters={}
+2026-05-09T14:43:07.396+03:00 DEBUG 16148 --- [nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#me(HttpServletRequest)
+2026-05-09T14:43:07.400+03:00 DEBUG 16148 --- [nio-8080-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:43:07.400+03:00 DEBUG 16148 --- [nio-8080-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Writing [UserDto[email=harunmukuss@gmail.com, username=harun resit müküs, role=user, demoBalance=5000.00, com (truncated)...]
+2026-05-09T14:43:07.401+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:43:07.406+03:00 DEBUG 16148 --- [io-8080-exec-10] o.s.web.servlet.DispatcherServlet        : OPTIONS "/api/trips?from=sivas&to=%3F%3Fstanbul&date=2026-05-09", parameters={masked}
+2026-05-09T14:43:07.407+03:00 DEBUG 16148 --- [io-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.TripController#searchTrips(String, String, String)
+2026-05-09T14:43:07.408+03:00 DEBUG 16148 --- [io-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:43:07.408+03:00 DEBUG 16148 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/trips?from=sivas&to=%3F%3Fstanbul&date=2026-05-09", parameters={masked}
+2026-05-09T14:43:07.408+03:00 DEBUG 16148 --- [nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.TripController#searchTrips(String, String, String)
+2026-05-09T14:43:07.421+03:00 DEBUG 16148 --- [nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:43:07.421+03:00 DEBUG 16148 --- [nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Writing [[]]
+2026-05-09T14:43:07.421+03:00 DEBUG 16148 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:43:07.427+03:00 DEBUG 16148 --- [nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : OPTIONS "/api/trips/nearest?from=sivas&to=%3F%3Fstanbul&date=2026-05-09", parameters={masked}
+2026-05-09T14:43:07.427+03:00 DEBUG 16148 --- [nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.TripController#nearestTrips(String, String, String)
+2026-05-09T14:43:07.428+03:00 DEBUG 16148 --- [nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:43:07.430+03:00 DEBUG 16148 --- [nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/trips/nearest?from=sivas&to=%3F%3Fstanbul&date=2026-05-09", parameters={masked}
+2026-05-09T14:43:07.430+03:00 DEBUG 16148 --- [nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.TripController#nearestTrips(String, String, String)
+2026-05-09T14:43:07.435+03:00 DEBUG 16148 --- [nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:43:07.435+03:00 DEBUG 16148 --- [nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Writing [NearestTripsResponse[date=null, trips=[]]]
+2026-05-09T14:43:07.435+03:00 DEBUG 16148 --- [nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:43:07.435+03:00 DEBUG 16148 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T14:43:07.441+03:00 DEBUG 16148 --- [nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T14:43:07.443+03:00 DEBUG 16148 --- [nio-8080-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:43:07.443+03:00 DEBUG 16148 --- [nio-8080-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T14:43:07.443+03:00 DEBUG 16148 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:43:19.610+03:00 DEBUG 16148 --- [nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : OPTIONS "/api/auth/logout", parameters={}
+2026-05-09T14:43:19.611+03:00 DEBUG 16148 --- [nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#logout(HttpServletRequest)
+2026-05-09T14:43:19.612+03:00 DEBUG 16148 --- [nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:43:19.614+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/logout", parameters={}
+2026-05-09T14:43:19.614+03:00 DEBUG 16148 --- [nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#logout(HttpServletRequest)
+2026-05-09T14:43:19.623+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:43:19.623+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Nothing to write: null body
+2026-05-09T14:43:19.623+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 204 NO_CONTENT
+2026-05-09T14:43:20.369+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T14:43:20.369+03:00 DEBUG 16148 --- [nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T14:43:20.374+03:00 DEBUG 16148 --- [nio-8080-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:43:20.374+03:00 DEBUG 16148 --- [nio-8080-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T14:43:20.375+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:43:20.378+03:00 DEBUG 16148 --- [nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T14:43:20.378+03:00 DEBUG 16148 --- [nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T14:43:20.381+03:00 DEBUG 16148 --- [nio-8080-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:43:20.384+03:00 DEBUG 16148 --- [nio-8080-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T14:43:20.384+03:00 DEBUG 16148 --- [nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:43:34.771+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/login", parameters={}
+2026-05-09T14:43:34.773+03:00 DEBUG 16148 --- [nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#login(LoginRequest)
+2026-05-09T14:43:34.774+03:00 DEBUG 16148 --- [nio-8080-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest[email=admin@busgo.com, password=1234, role=admin]]
+2026-05-09T14:43:34.868+03:00 DEBUG 16148 --- [nio-8080-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:43:34.868+03:00 DEBUG 16148 --- [nio-8080-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Writing [AuthResponse[token=aac8f3ea-c2d0-44ba-b4b7-ac42f7844a4e, user=UserDto[email=admin@busgo.com, usernam (truncated)...]
+2026-05-09T14:43:34.868+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:43:35.621+03:00 DEBUG 16148 --- [io-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/auth/me", parameters={}
+2026-05-09T14:43:35.622+03:00 DEBUG 16148 --- [io-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#me(HttpServletRequest)
+2026-05-09T14:43:35.626+03:00 DEBUG 16148 --- [io-8080-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:43:35.626+03:00 DEBUG 16148 --- [io-8080-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Writing [UserDto[email=admin@busgo.com, username=BusGo Admin, role=admin, demoBalance=5000.00, companyName=nu (truncated)...]
+2026-05-09T14:43:35.627+03:00 DEBUG 16148 --- [io-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:43:35.655+03:00 DEBUG 16148 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : OPTIONS "/api/admin/cities", parameters={}
+2026-05-09T14:43:35.656+03:00 DEBUG 16148 --- [nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AdminController#listCities(HttpServletRequest)
+2026-05-09T14:43:35.657+03:00 DEBUG 16148 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:43:35.659+03:00 DEBUG 16148 --- [nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/admin/cities", parameters={}
+2026-05-09T14:43:35.659+03:00 DEBUG 16148 --- [nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AdminController#listCities(HttpServletRequest)
+2026-05-09T14:43:35.666+03:00 DEBUG 16148 --- [nio-8080-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:43:35.667+03:00 DEBUG 16148 --- [nio-8080-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T14:43:35.668+03:00 DEBUG 16148 --- [nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:43:35.671+03:00 DEBUG 16148 --- [nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : OPTIONS "/api/admin/companies", parameters={}
+2026-05-09T14:43:35.671+03:00 DEBUG 16148 --- [nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AdminController#listCompanies(HttpServletRequest)
+2026-05-09T14:43:35.672+03:00 DEBUG 16148 --- [nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:43:35.673+03:00 DEBUG 16148 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/admin/companies", parameters={}
+2026-05-09T14:43:35.674+03:00 DEBUG 16148 --- [nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AdminController#listCompanies(HttpServletRequest)
+2026-05-09T14:43:35.684+03:00 DEBUG 16148 --- [nio-8080-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:43:35.684+03:00 DEBUG 16148 --- [nio-8080-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CompanyDto[id=3f3f3f2e-6b7e-4b3f-3f3f-3f441070591f, name=VanG??l??Seyahat, phone=5550000001, email= (truncated)...]
+2026-05-09T14:43:35.685+03:00 DEBUG 16148 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:43:35.694+03:00 DEBUG 16148 --- [nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : OPTIONS "/api/admin/trips", parameters={}
+2026-05-09T14:43:35.695+03:00 DEBUG 16148 --- [nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AdminController#listTrips(HttpServletRequest)
+2026-05-09T14:43:35.695+03:00 DEBUG 16148 --- [nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:43:35.698+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/admin/trips", parameters={}
+2026-05-09T14:43:35.698+03:00 DEBUG 16148 --- [nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AdminController#listTrips(HttpServletRequest)
+2026-05-09T14:43:35.711+03:00 DEBUG 16148 --- [nio-8080-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:43:35.712+03:00 DEBUG 16148 --- [nio-8080-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Writing [[TripDto[id=3c1d181a-2846-4f3f-3f3f-10611c3f2004, from=??stanbul, to=sivas, date=2026-04-18, company (truncated)...]
+2026-05-09T14:43:35.712+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:43:35.715+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : OPTIONS "/api/admin/tickets", parameters={}
+2026-05-09T14:43:35.716+03:00 DEBUG 16148 --- [nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AdminController#listAllTickets(HttpServletRequest)
+2026-05-09T14:43:35.717+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:43:35.720+03:00 DEBUG 16148 --- [nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/admin/tickets", parameters={}
+2026-05-09T14:43:35.721+03:00 DEBUG 16148 --- [nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AdminController#listAllTickets(HttpServletRequest)
+2026-05-09T14:43:35.735+03:00 DEBUG 16148 --- [nio-8080-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:43:35.735+03:00 DEBUG 16148 --- [nio-8080-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Writing [[TicketDto[id=ac9f2873-319b-4d62-ade8-c0d1e6d77dbf, userEmail=sy@gmail.com, userName=sudenaz, from=e (truncated)...]
+2026-05-09T14:43:35.736+03:00 DEBUG 16148 --- [nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:44:15.179+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/logout", parameters={}
+2026-05-09T14:44:15.179+03:00 DEBUG 16148 --- [nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#logout(HttpServletRequest)
+2026-05-09T14:44:15.186+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:44:15.186+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Nothing to write: null body
+2026-05-09T14:44:15.186+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 204 NO_CONTENT
+2026-05-09T14:44:15.928+03:00 DEBUG 16148 --- [io-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T14:44:15.928+03:00 DEBUG 16148 --- [io-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T14:44:15.933+03:00 DEBUG 16148 --- [io-8080-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:44:15.934+03:00 DEBUG 16148 --- [io-8080-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T14:44:15.935+03:00 DEBUG 16148 --- [io-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:44:15.938+03:00 DEBUG 16148 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T14:44:15.939+03:00 DEBUG 16148 --- [nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T14:44:15.942+03:00 DEBUG 16148 --- [nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:44:15.943+03:00 DEBUG 16148 --- [nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T14:44:15.944+03:00 DEBUG 16148 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:44:17.519+03:00 DEBUG 16148 --- [nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T14:44:17.520+03:00 DEBUG 16148 --- [nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T14:44:17.524+03:00 DEBUG 16148 --- [nio-8080-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:44:17.525+03:00 DEBUG 16148 --- [nio-8080-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T14:44:17.526+03:00 DEBUG 16148 --- [nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:44:32.811+03:00 DEBUG 16148 --- [nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/login", parameters={}
+2026-05-09T14:44:32.811+03:00 DEBUG 16148 --- [nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#login(LoginRequest)
+2026-05-09T14:44:32.814+03:00 DEBUG 16148 --- [nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest[email=harunmukuss@gmail.com, password=123456, role=user]]
+2026-05-09T14:44:32.915+03:00 DEBUG 16148 --- [nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:44:32.916+03:00 DEBUG 16148 --- [nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Writing [AuthResponse[token=88152b83-f5f2-4013-abac-104a6e6d20f5, user=UserDto[email=harunmukuss@gmail.com, u (truncated)...]
+2026-05-09T14:44:32.917+03:00 DEBUG 16148 --- [nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:44:33.753+03:00 DEBUG 16148 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/auth/me", parameters={}
+2026-05-09T14:44:33.754+03:00 DEBUG 16148 --- [nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#me(HttpServletRequest)
+2026-05-09T14:44:33.758+03:00 DEBUG 16148 --- [nio-8080-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:44:33.759+03:00 DEBUG 16148 --- [nio-8080-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Writing [UserDto[email=harunmukuss@gmail.com, username=harun resit müküs, role=user, demoBalance=5000.00, com (truncated)...]
+2026-05-09T14:44:33.761+03:00 DEBUG 16148 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:44:33.786+03:00 DEBUG 16148 --- [nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T14:44:33.787+03:00 DEBUG 16148 --- [nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T14:44:33.792+03:00 DEBUG 16148 --- [nio-8080-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:44:33.792+03:00 DEBUG 16148 --- [nio-8080-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T14:44:33.793+03:00 DEBUG 16148 --- [nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:44:33.796+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T14:44:33.797+03:00 DEBUG 16148 --- [nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T14:44:33.801+03:00 DEBUG 16148 --- [nio-8080-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:44:33.801+03:00 DEBUG 16148 --- [nio-8080-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T14:44:33.802+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:44:54.586+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/auth/me", parameters={}
+2026-05-09T14:44:54.587+03:00 DEBUG 16148 --- [nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#me(HttpServletRequest)
+2026-05-09T14:44:54.591+03:00 DEBUG 16148 --- [nio-8080-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:44:54.591+03:00 DEBUG 16148 --- [nio-8080-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Writing [UserDto[email=harunmukuss@gmail.com, username=harun resit müküs, role=user, demoBalance=5000.00, com (truncated)...]
+2026-05-09T14:44:54.591+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:44:54.595+03:00 DEBUG 16148 --- [nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : OPTIONS "/api/trips?from=Ankara&to=Van&date=2026-06-12", parameters={masked}
+2026-05-09T14:44:54.596+03:00 DEBUG 16148 --- [nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.TripController#searchTrips(String, String, String)
+2026-05-09T14:44:54.596+03:00 DEBUG 16148 --- [nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:44:54.598+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/trips?from=Ankara&to=Van&date=2026-06-12", parameters={masked}
+2026-05-09T14:44:54.598+03:00 DEBUG 16148 --- [nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.TripController#searchTrips(String, String, String)
+2026-05-09T14:44:54.610+03:00 DEBUG 16148 --- [nio-8080-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:44:54.610+03:00 DEBUG 16148 --- [nio-8080-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Writing [[TripDto[id=c1ed8680-10ea-4528-a57b-2b3302886f2e, from=Ankara, to=Van, date=2026-06-12, company=VanG (truncated)...]
+2026-05-09T14:44:54.611+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T14:44:54.614+03:00 DEBUG 16148 --- [io-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T14:44:54.614+03:00 DEBUG 16148 --- [io-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T14:44:54.615+03:00 DEBUG 16148 --- [io-8080-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T14:44:54.615+03:00 DEBUG 16148 --- [io-8080-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T14:44:54.619+03:00 DEBUG 16148 --- [io-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T15:22:20.816+03:00 DEBUG 16148 --- [nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T15:22:20.818+03:00 DEBUG 16148 --- [nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T15:22:20.828+03:00 DEBUG 16148 --- [nio-8080-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T15:22:20.830+03:00 DEBUG 16148 --- [nio-8080-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T15:22:20.831+03:00 DEBUG 16148 --- [nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T15:22:20.835+03:00 DEBUG 16148 --- [nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T15:22:20.835+03:00 DEBUG 16148 --- [nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T15:22:20.840+03:00 DEBUG 16148 --- [nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T15:22:20.840+03:00 DEBUG 16148 --- [nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T15:22:20.841+03:00 DEBUG 16148 --- [nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T15:22:24.796+03:00 DEBUG 16148 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T15:22:24.796+03:00 DEBUG 16148 --- [nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T15:22:24.800+03:00 DEBUG 16148 --- [nio-8080-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T15:22:24.801+03:00 DEBUG 16148 --- [nio-8080-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T15:22:24.802+03:00 DEBUG 16148 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T15:22:25.833+03:00 DEBUG 16148 --- [nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T15:22:25.834+03:00 DEBUG 16148 --- [nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T15:22:25.839+03:00 DEBUG 16148 --- [nio-8080-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T15:22:25.839+03:00 DEBUG 16148 --- [nio-8080-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T15:22:25.840+03:00 DEBUG 16148 --- [nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T15:22:25.847+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T15:22:25.847+03:00 DEBUG 16148 --- [nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T15:22:25.851+03:00 DEBUG 16148 --- [nio-8080-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T15:22:25.852+03:00 DEBUG 16148 --- [nio-8080-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T15:22:25.853+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T15:22:28.742+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/logout", parameters={}
+2026-05-09T15:22:28.742+03:00 DEBUG 16148 --- [nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#logout(HttpServletRequest)
+2026-05-09T15:22:28.755+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T15:22:28.755+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Nothing to write: null body
+2026-05-09T15:22:28.755+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 204 NO_CONTENT
+2026-05-09T15:22:29.492+03:00 DEBUG 16148 --- [nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T15:22:29.493+03:00 DEBUG 16148 --- [nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T15:22:29.498+03:00 DEBUG 16148 --- [nio-8080-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T15:22:29.499+03:00 DEBUG 16148 --- [nio-8080-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T15:22:29.500+03:00 DEBUG 16148 --- [nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T15:22:29.535+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T15:22:29.536+03:00 DEBUG 16148 --- [nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T15:22:29.540+03:00 DEBUG 16148 --- [nio-8080-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T15:22:29.540+03:00 DEBUG 16148 --- [nio-8080-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T15:22:29.540+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T15:22:44.367+03:00 DEBUG 16148 --- [io-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T15:22:44.367+03:00 DEBUG 16148 --- [io-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T15:22:44.373+03:00 DEBUG 16148 --- [io-8080-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T15:22:44.373+03:00 DEBUG 16148 --- [io-8080-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T15:22:44.374+03:00 DEBUG 16148 --- [io-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T15:24:25.477+03:00 DEBUG 16148 --- [nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T15:24:25.478+03:00 DEBUG 16148 --- [nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T15:24:25.482+03:00 DEBUG 16148 --- [nio-8080-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T15:24:25.482+03:00 DEBUG 16148 --- [nio-8080-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T15:24:25.483+03:00 DEBUG 16148 --- [nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:04:42.231+03:00  WARN 16148 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=55m12s181ms955µs100ns).
+2026-05-09T17:13:20.598+03:00  WARN 16148 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3m38s282ms245µs200ns).
+2026-05-09T17:17:32.869+03:00 DEBUG 16148 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : OPTIONS "/api/auth/login", parameters={}
+2026-05-09T17:17:32.872+03:00 DEBUG 16148 --- [nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#login(LoginRequest)
+2026-05-09T17:17:32.875+03:00 DEBUG 16148 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:17:32.887+03:00 DEBUG 16148 --- [nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/login", parameters={}
+2026-05-09T17:17:32.889+03:00 DEBUG 16148 --- [nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#login(LoginRequest)
+2026-05-09T17:17:32.894+03:00 DEBUG 16148 --- [nio-8080-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest[email=harunmukuss@gmail.com, password=123456, role=user]]
+2026-05-09T17:17:33.095+03:00 DEBUG 16148 --- [nio-8080-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:17:33.095+03:00 DEBUG 16148 --- [nio-8080-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Writing [AuthResponse[token=e8e4ce26-a145-43a9-9b16-43f1e7ca2453, user=UserDto[email=harunmukuss@gmail.com, u (truncated)...]
+2026-05-09T17:17:33.100+03:00 DEBUG 16148 --- [nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:17:33.975+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : OPTIONS "/api/auth/me", parameters={}
+2026-05-09T17:17:33.975+03:00 DEBUG 16148 --- [nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#me(HttpServletRequest)
+2026-05-09T17:17:33.975+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:17:33.985+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/auth/me", parameters={}
+2026-05-09T17:17:33.985+03:00 DEBUG 16148 --- [nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#me(HttpServletRequest)
+2026-05-09T17:17:34.002+03:00 DEBUG 16148 --- [nio-8080-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:17:34.002+03:00 DEBUG 16148 --- [nio-8080-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Writing [UserDto[email=harunmukuss@gmail.com, username=harun resit müküs, role=user, demoBalance=5000.00, com (truncated)...]
+2026-05-09T17:17:34.002+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:17:34.008+03:00 DEBUG 16148 --- [nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : OPTIONS "/api/cities", parameters={}
+2026-05-09T17:17:34.008+03:00 DEBUG 16148 --- [nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T17:17:34.016+03:00 DEBUG 16148 --- [nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:17:34.019+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T17:17:34.019+03:00 DEBUG 16148 --- [nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T17:17:34.025+03:00 DEBUG 16148 --- [nio-8080-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:17:34.033+03:00 DEBUG 16148 --- [nio-8080-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T17:17:34.035+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:17:34.043+03:00 DEBUG 16148 --- [io-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T17:17:34.043+03:00 DEBUG 16148 --- [io-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T17:17:34.043+03:00 DEBUG 16148 --- [io-8080-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:17:34.051+03:00 DEBUG 16148 --- [io-8080-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T17:17:34.054+03:00 DEBUG 16148 --- [io-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:17:39.871+03:00 DEBUG 16148 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/auth/me", parameters={}
+2026-05-09T17:17:39.871+03:00 DEBUG 16148 --- [nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#me(HttpServletRequest)
+2026-05-09T17:17:39.879+03:00 DEBUG 16148 --- [nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:17:39.879+03:00 DEBUG 16148 --- [nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Writing [UserDto[email=harunmukuss@gmail.com, username=harun resit müküs, role=user, demoBalance=5000.00, com (truncated)...]
+2026-05-09T17:17:39.879+03:00 DEBUG 16148 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:17:39.893+03:00 DEBUG 16148 --- [nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : OPTIONS "/api/trips?from=Ankara&to=Van&date=2026-06-12", parameters={masked}
+2026-05-09T17:17:39.894+03:00 DEBUG 16148 --- [nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.TripController#searchTrips(String, String, String)
+2026-05-09T17:17:39.894+03:00 DEBUG 16148 --- [nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:17:39.894+03:00 DEBUG 16148 --- [nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/trips?from=Ankara&to=Van&date=2026-06-12", parameters={masked}
+2026-05-09T17:17:39.899+03:00 DEBUG 16148 --- [nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.TripController#searchTrips(String, String, String)
+2026-05-09T17:17:39.920+03:00 DEBUG 16148 --- [nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:17:39.926+03:00 DEBUG 16148 --- [nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Writing [[TripDto[id=c1ed8680-10ea-4528-a57b-2b3302886f2e, from=Ankara, to=Van, date=2026-06-12, company=VanG (truncated)...]
+2026-05-09T17:17:39.926+03:00 DEBUG 16148 --- [nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:17:39.926+03:00 DEBUG 16148 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T17:17:39.926+03:00 DEBUG 16148 --- [nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T17:17:39.937+03:00 DEBUG 16148 --- [nio-8080-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:17:39.937+03:00 DEBUG 16148 --- [nio-8080-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T17:17:39.943+03:00 DEBUG 16148 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:20:24.432+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/auth/me", parameters={}
+2026-05-09T17:20:24.432+03:00 DEBUG 16148 --- [nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#me(HttpServletRequest)
+2026-05-09T17:20:24.442+03:00 DEBUG 16148 --- [nio-8080-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:20:24.442+03:00 DEBUG 16148 --- [nio-8080-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Writing [UserDto[email=harunmukuss@gmail.com, username=harun resit müküs, role=user, demoBalance=5000.00, com (truncated)...]
+2026-05-09T17:20:24.449+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:20:24.454+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T17:20:24.454+03:00 DEBUG 16148 --- [nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T17:20:24.463+03:00 DEBUG 16148 --- [nio-8080-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:20:24.464+03:00 DEBUG 16148 --- [nio-8080-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T17:20:24.464+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:20:48.256+03:00 DEBUG 16148 --- [nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/auth/me", parameters={}
+2026-05-09T17:20:48.256+03:00 DEBUG 16148 --- [nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#me(HttpServletRequest)
+2026-05-09T17:20:48.263+03:00 DEBUG 16148 --- [nio-8080-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:20:48.263+03:00 DEBUG 16148 --- [nio-8080-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Writing [UserDto[email=harunmukuss@gmail.com, username=harun resit müküs, role=user, demoBalance=5000.00, com (truncated)...]
+2026-05-09T17:20:48.263+03:00 DEBUG 16148 --- [nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:20:48.272+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T17:20:48.272+03:00 DEBUG 16148 --- [nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T17:20:48.276+03:00 DEBUG 16148 --- [nio-8080-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:20:48.279+03:00 DEBUG 16148 --- [nio-8080-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T17:20:48.279+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:21:52.126+03:00 DEBUG 16148 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/auth/me", parameters={}
+2026-05-09T17:21:52.127+03:00 DEBUG 16148 --- [nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#me(HttpServletRequest)
+2026-05-09T17:21:52.131+03:00 DEBUG 16148 --- [nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:21:52.131+03:00 DEBUG 16148 --- [nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Writing [UserDto[email=harunmukuss@gmail.com, username=harun resit müküs, role=user, demoBalance=5000.00, com (truncated)...]
+2026-05-09T17:21:52.137+03:00 DEBUG 16148 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:21:52.186+03:00 DEBUG 16148 --- [nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T17:21:52.186+03:00 DEBUG 16148 --- [nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T17:21:52.193+03:00 DEBUG 16148 --- [nio-8080-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:21:52.194+03:00 DEBUG 16148 --- [nio-8080-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T17:21:52.196+03:00 DEBUG 16148 --- [nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:23:07.791+03:00 DEBUG 16148 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : OPTIONS "/api/auth/forgot-password", parameters={}
+2026-05-09T17:23:07.791+03:00 DEBUG 16148 --- [nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#forgotPassword(ForgotPasswordRequest)
+2026-05-09T17:23:07.791+03:00 DEBUG 16148 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:23:07.791+03:00 DEBUG 16148 --- [nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/forgot-password", parameters={}
+2026-05-09T17:23:07.791+03:00 DEBUG 16148 --- [nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#forgotPassword(ForgotPasswordRequest)
+2026-05-09T17:23:07.830+03:00 DEBUG 16148 --- [nio-8080-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [ForgotPasswordRequest[email=harunmukus@gmail.com, role=user]]
+2026-05-09T17:23:07.871+03:00 DEBUG 16148 --- [nio-8080-exec-9] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.busgo.config.ApiExceptionHandler#handleResponseStatus(ResponseStatusException, HttpServletRequest)
+2026-05-09T17:23:07.878+03:00 DEBUG 16148 --- [nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:23:07.878+03:00 DEBUG 16148 --- [nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{timestamp=2026-05-09T14:23:07.878343500Z, status=404, error=Not Found, message=Account not found, p (truncated)...]
+2026-05-09T17:23:07.878+03:00 DEBUG 16148 --- [nio-8080-exec-9] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 404 NOT_FOUND "Account not found"]
+2026-05-09T17:23:07.878+03:00 DEBUG 16148 --- [nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 404 NOT_FOUND
+2026-05-09T17:23:19.441+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/forgot-password", parameters={}
+2026-05-09T17:23:19.441+03:00 DEBUG 16148 --- [nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#forgotPassword(ForgotPasswordRequest)
+2026-05-09T17:23:19.445+03:00 DEBUG 16148 --- [nio-8080-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [ForgotPasswordRequest[email=harunmukuss@gmail.com, role=user]]
+2026-05-09T17:23:19.621+03:00 DEBUG 16148 --- [nio-8080-exec-7] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.busgo.config.ApiExceptionHandler#handleResponseStatus(ResponseStatusException, HttpServletRequest)
+2026-05-09T17:23:19.621+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:23:19.621+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{timestamp=2026-05-09T14:23:19.621020600Z, status=503, error=Service Unavailable, message=Mail sende (truncated)...]
+2026-05-09T17:23:19.621+03:00 DEBUG 16148 --- [nio-8080-exec-7] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 503 SERVICE_UNAVAILABLE "Mail sender address is not configured."]
+2026-05-09T17:23:19.621+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 503 SERVICE_UNAVAILABLE
+2026-05-09T17:23:43.261+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/forgot-password", parameters={}
+2026-05-09T17:23:43.265+03:00 DEBUG 16148 --- [nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#forgotPassword(ForgotPasswordRequest)
+2026-05-09T17:23:43.265+03:00 DEBUG 16148 --- [nio-8080-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [ForgotPasswordRequest[email=sudenzylldrm@gmail.com, role=user]]
+2026-05-09T17:23:43.273+03:00 DEBUG 16148 --- [nio-8080-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.busgo.config.ApiExceptionHandler#handleResponseStatus(ResponseStatusException, HttpServletRequest)
+2026-05-09T17:23:43.273+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:23:43.276+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{timestamp=2026-05-09T14:23:43.273278500Z, status=404, error=Not Found, message=Account not found, p (truncated)...]
+2026-05-09T17:23:43.276+03:00 DEBUG 16148 --- [nio-8080-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 404 NOT_FOUND "Account not found"]
+2026-05-09T17:23:43.278+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 404 NOT_FOUND
+2026-05-09T17:24:02.007+03:00 DEBUG 16148 --- [nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : OPTIONS "/api/auth/logout", parameters={}
+2026-05-09T17:24:02.011+03:00 DEBUG 16148 --- [nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#logout(HttpServletRequest)
+2026-05-09T17:24:02.011+03:00 DEBUG 16148 --- [nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:24:02.016+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/logout", parameters={}
+2026-05-09T17:24:02.016+03:00 DEBUG 16148 --- [nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#logout(HttpServletRequest)
+2026-05-09T17:24:02.028+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:24:02.028+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Nothing to write: null body
+2026-05-09T17:24:02.028+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 204 NO_CONTENT
+2026-05-09T17:24:02.784+03:00 DEBUG 16148 --- [io-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T17:24:02.785+03:00 DEBUG 16148 --- [io-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T17:24:02.793+03:00 DEBUG 16148 --- [io-8080-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:24:02.793+03:00 DEBUG 16148 --- [io-8080-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T17:24:02.798+03:00 DEBUG 16148 --- [io-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:24:02.811+03:00 DEBUG 16148 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T17:24:02.811+03:00 DEBUG 16148 --- [nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T17:24:02.823+03:00 DEBUG 16148 --- [nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:24:02.825+03:00 DEBUG 16148 --- [nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T17:24:02.825+03:00 DEBUG 16148 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:24:05.623+03:00 DEBUG 16148 --- [nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T17:24:05.627+03:00 DEBUG 16148 --- [nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T17:24:05.630+03:00 DEBUG 16148 --- [nio-8080-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:24:05.635+03:00 DEBUG 16148 --- [nio-8080-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T17:24:05.638+03:00 DEBUG 16148 --- [nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:24:11.927+03:00 DEBUG 16148 --- [nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T17:24:11.927+03:00 DEBUG 16148 --- [nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T17:24:11.935+03:00 DEBUG 16148 --- [nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:24:11.935+03:00 DEBUG 16148 --- [nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T17:24:11.940+03:00 DEBUG 16148 --- [nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:24:37.125+03:00 DEBUG 16148 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : OPTIONS "/api/auth/register", parameters={}
+2026-05-09T17:24:37.125+03:00 DEBUG 16148 --- [nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#register(RegisterRequest)
+2026-05-09T17:24:37.131+03:00 DEBUG 16148 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:24:37.134+03:00 DEBUG 16148 --- [nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/register", parameters={}
+2026-05-09T17:24:37.134+03:00 DEBUG 16148 --- [nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#register(RegisterRequest)
+2026-05-09T17:24:37.137+03:00 DEBUG 16148 --- [nio-8080-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [RegisterRequest[username=sude, email=sudenzylldrm@gmail.com, password=sy585858]]
+2026-05-09T17:24:37.300+03:00 DEBUG 16148 --- [nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:24:37.300+03:00 DEBUG 16148 --- [nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse[token=75e64535-56be-4e0a-9916-177ba8cd7bf2, user=UserDto[email=sudenzylldrm@gmail.com,  (truncated)...]
+2026-05-09T17:24:37.300+03:00 DEBUG 16148 --- [nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 201 CREATED
+2026-05-09T17:24:38.168+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/auth/me", parameters={}
+2026-05-09T17:24:38.168+03:00 DEBUG 16148 --- [nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#me(HttpServletRequest)
+2026-05-09T17:24:38.179+03:00 DEBUG 16148 --- [nio-8080-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:24:38.179+03:00 DEBUG 16148 --- [nio-8080-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Writing [UserDto[email=sudenzylldrm@gmail.com, username=sude, role=user, demoBalance=5000.00, companyName=nul (truncated)...]
+2026-05-09T17:24:38.181+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:24:38.187+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T17:24:38.187+03:00 DEBUG 16148 --- [nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T17:24:38.193+03:00 DEBUG 16148 --- [nio-8080-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:24:38.193+03:00 DEBUG 16148 --- [nio-8080-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T17:24:38.198+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:24:38.206+03:00 DEBUG 16148 --- [nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T17:24:38.206+03:00 DEBUG 16148 --- [nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T17:24:38.217+03:00 DEBUG 16148 --- [nio-8080-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:24:38.219+03:00 DEBUG 16148 --- [nio-8080-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T17:24:38.219+03:00 DEBUG 16148 --- [nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:24:44.283+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/logout", parameters={}
+2026-05-09T17:24:44.286+03:00 DEBUG 16148 --- [nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#logout(HttpServletRequest)
+2026-05-09T17:24:44.292+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:24:44.292+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Nothing to write: null body
+2026-05-09T17:24:44.292+03:00 DEBUG 16148 --- [nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 204 NO_CONTENT
+2026-05-09T17:24:45.065+03:00 DEBUG 16148 --- [io-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T17:24:45.068+03:00 DEBUG 16148 --- [io-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T17:24:45.080+03:00 DEBUG 16148 --- [io-8080-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:24:45.080+03:00 DEBUG 16148 --- [io-8080-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T17:24:45.083+03:00 DEBUG 16148 --- [io-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:24:45.093+03:00 DEBUG 16148 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T17:24:45.093+03:00 DEBUG 16148 --- [nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T17:24:45.102+03:00 DEBUG 16148 --- [nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:24:45.105+03:00 DEBUG 16148 --- [nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T17:24:45.108+03:00 DEBUG 16148 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:24:46.706+03:00 DEBUG 16148 --- [nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T17:24:46.713+03:00 DEBUG 16148 --- [nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T17:24:46.721+03:00 DEBUG 16148 --- [nio-8080-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:24:46.721+03:00 DEBUG 16148 --- [nio-8080-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T17:24:46.723+03:00 DEBUG 16148 --- [nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:24:59.673+03:00 DEBUG 16148 --- [nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/forgot-password", parameters={}
+2026-05-09T17:24:59.673+03:00 DEBUG 16148 --- [nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#forgotPassword(ForgotPasswordRequest)
+2026-05-09T17:24:59.673+03:00 DEBUG 16148 --- [nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [ForgotPasswordRequest[email=sudenzylldrm@gmail.com, role=user]]
+2026-05-09T17:24:59.822+03:00 DEBUG 16148 --- [nio-8080-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.busgo.config.ApiExceptionHandler#handleResponseStatus(ResponseStatusException, HttpServletRequest)
+2026-05-09T17:24:59.824+03:00 DEBUG 16148 --- [nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:24:59.824+03:00 DEBUG 16148 --- [nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{timestamp=2026-05-09T14:24:59.824879800Z, status=503, error=Service Unavailable, message=Mail sende (truncated)...]
+2026-05-09T17:24:59.824+03:00 DEBUG 16148 --- [nio-8080-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 503 SERVICE_UNAVAILABLE "Mail sender address is not configured."]
+2026-05-09T17:24:59.824+03:00 DEBUG 16148 --- [nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 503 SERVICE_UNAVAILABLE
+2026-05-09T17:26:58.346+03:00 DEBUG 16148 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T17:26:58.347+03:00 DEBUG 16148 --- [nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T17:26:58.350+03:00 DEBUG 16148 --- [nio-8080-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:26:58.352+03:00 DEBUG 16148 --- [nio-8080-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T17:26:58.352+03:00 DEBUG 16148 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:27:17.185+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T17:27:17.185+03:00 DEBUG 16148 --- [nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T17:27:17.187+03:00 DEBUG 16148 --- [nio-8080-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:27:17.193+03:00 DEBUG 16148 --- [nio-8080-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T17:27:17.193+03:00 DEBUG 16148 --- [nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:27:28.997+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/forgot-password", parameters={}
+2026-05-09T17:27:29.005+03:00 DEBUG 16148 --- [nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#forgotPassword(ForgotPasswordRequest)
+2026-05-09T17:27:29.010+03:00 DEBUG 16148 --- [nio-8080-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [ForgotPasswordRequest[email=sudenzylldrm@gmail.com, role=user]]
+2026-05-09T17:27:29.131+03:00 DEBUG 16148 --- [nio-8080-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.busgo.config.ApiExceptionHandler#handleResponseStatus(ResponseStatusException, HttpServletRequest)
+2026-05-09T17:27:29.151+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:27:29.151+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{timestamp=2026-05-09T14:27:29.151806300Z, status=503, error=Service Unavailable, message=Mail sende (truncated)...]
+2026-05-09T17:27:29.153+03:00 DEBUG 16148 --- [nio-8080-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 503 SERVICE_UNAVAILABLE "Mail sender address is not configured."]
+2026-05-09T17:27:29.153+03:00 DEBUG 16148 --- [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 503 SERVICE_UNAVAILABLE
+2026-05-09T17:28:01.584+03:00 DEBUG 16148 --- [nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/cities", parameters={}
+2026-05-09T17:28:01.586+03:00 DEBUG 16148 --- [nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.CatalogController#listCities()
+2026-05-09T17:28:01.592+03:00 DEBUG 16148 --- [nio-8080-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:28:01.593+03:00 DEBUG 16148 --- [nio-8080-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Writing [[CityDto[id=093f3f3f-783f-4d3f-3f3f-3f3f3f3f3330, name=erzurum, countryCode=25], CityDto[id=1068713f (truncated)...]
+2026-05-09T17:28:01.594+03:00 DEBUG 16148 --- [nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-09T17:28:12.184+03:00 DEBUG 16148 --- [io-8080-exec-10] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/forgot-password", parameters={}
+2026-05-09T17:28:12.184+03:00 DEBUG 16148 --- [io-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.busgo.controller.AuthController#forgotPassword(ForgotPasswordRequest)
+2026-05-09T17:28:12.185+03:00 DEBUG 16148 --- [io-8080-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [ForgotPasswordRequest[email=user@busgo.com, role=user]]
+2026-05-09T17:28:12.254+03:00 DEBUG 16148 --- [io-8080-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.busgo.config.ApiExceptionHandler#handleResponseStatus(ResponseStatusException, HttpServletRequest)
+2026-05-09T17:28:12.256+03:00 DEBUG 16148 --- [io-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-09T17:28:12.256+03:00 DEBUG 16148 --- [io-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{timestamp=2026-05-09T14:28:12.256187400Z, status=503, error=Service Unavailable, message=Mail sende (truncated)...]
+2026-05-09T17:28:12.257+03:00 DEBUG 16148 --- [io-8080-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 503 SERVICE_UNAVAILABLE "Mail sender address is not configured."]
+2026-05-09T17:28:12.258+03:00 DEBUG 16148 --- [io-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 503 SERVICE_UNAVAILABLE
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4 d 03:22 h
+[INFO] Finished at: 2026-05-09T17:28:35+03:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:3.2.6:run (default-cli) on project busgo-backend: Process terminated with exit code: -1 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

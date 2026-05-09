@@ -45,7 +45,7 @@ class SeatSelectionSeleniumTest extends BaseFrontendSeleniumTest {
     driver.findElement(By.cssSelector("button[data-seat='1']")).click();
 
     assertTrue(summaryText().contains("Selected: 1"));
-    assertTrue(summaryText().contains("Total: $630.00"));
+    assertTrue(summaryText().contains("Total: ₺630,00"));
   }
 
   @Test
@@ -53,10 +53,10 @@ class SeatSelectionSeleniumTest extends BaseFrontendSeleniumTest {
     prepareSeatsPage();
 
     driver.findElement(By.cssSelector("button[data-seat='5']")).click();
-    assertTrue(summaryText().contains("Total: $450.00"));
+    assertTrue(summaryText().contains("Total: ₺450,00"));
     driver.findElement(By.cssSelector("button[data-seat='5']")).click();
     driver.findElement(By.cssSelector("button[data-seat='1']")).click();
-    assertTrue(summaryText().contains("Total: $630.00"));
+    assertTrue(summaryText().contains("Total: ₺630,00"));
   }
 
   @Test

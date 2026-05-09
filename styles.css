@@ -841,6 +841,51 @@ select:focus {
   justify-self: start;
 }
 
+.forgot-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  z-index: 50;
+}
+
+.forgot-modal[hidden] {
+  display: none !important;
+}
+
+.forgot-modal-card {
+  width: min(100%, 460px);
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 30px 80px rgba(15, 23, 42, 0.22);
+  display: grid;
+  gap: 14px;
+}
+
+.forgot-modal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.forgot-modal-head h2 {
+  margin: 0 0 6px;
+}
+
+.forgot-close-btn {
+  border: 0;
+  background: transparent;
+  color: #475569;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+
 .forgot-form {
   display: grid;
   gap: 10px;
@@ -848,6 +893,12 @@ select:focus {
   border: 1px dashed #bfdbfe;
   border-radius: 12px;
   background: #f8fbff;
+}
+
+.forgot-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .forgot-result {
@@ -876,6 +927,13 @@ select:focus {
 .ticket-list {
   display: grid;
   gap: 10px;
+}
+
+.profile-ticket-cta {
+  display: grid;
+  justify-items: start;
+  gap: 10px;
+  margin: 10px 0 22px;
 }
 
 .ticket-item {

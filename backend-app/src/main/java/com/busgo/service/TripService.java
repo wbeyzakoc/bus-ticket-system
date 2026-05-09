@@ -178,13 +178,18 @@ public class TripService {
 
   public List<TripDto> listAdminTrips(User admin) {
     String managedCompany = managedCompanyName(admin);
+    LocalDateTime now = LocalDateTime.now();
     if (managedCompany == null) {
       return tripRepository.findAll().stream()
+          .filter(trip -> trip.getStatus() == null || trip.getStatus() == TripStatus.SCHEDULED)
+          .filter(trip -> trip.getDepartureTime() != null && trip.getDepartureTime().isAfter(now))
           .sorted(Comparator.comparing(Trip::getDepartureTime))
           .map(this::toTripDto)
           .toList();
     }
     return tripRepository.findByCompany_NameIgnoreCaseOrderByDepartureTimeAsc(managedCompany).stream()
+        .filter(trip -> trip.getStatus() == null || trip.getStatus() == TripStatus.SCHEDULED)
+        .filter(trip -> trip.getDepartureTime() != null && trip.getDepartureTime().isAfter(now))
         .map(this::toTripDto)
         .toList();
   }
@@ -236,6 +241,11 @@ public class TripService {
     try {
       tripRepository.delete(trip);
     } catch (DataIntegrityViolationException ex) {
+      if (trip.getDepartureTime() != null && !trip.getDepartureTime().isAfter(LocalDateTime.now())) {
+        trip.setStatus(TripStatus.CANCELLED);
+        tripRepository.save(trip);
+        return;
+      }
       throw new ResponseStatusException(HttpStatus.CONFLICT, "Trip has existing bookings");
     }
   }

@@ -2,8 +2,10 @@ package com.busgo.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -30,6 +32,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.web.server.ResponseStatusException;
 
 class BookingServiceTest {
   @Test
@@ -221,5 +224,150 @@ class BookingServiceTest {
 
     assertEquals(1, bookingService.listAllTickets(admin).size());
     verify(ticketRepository).findByTrip_Company_NameIgnoreCaseOrderByCreatedAtDesc("Scoped Lines");
+  }
+
+  @Test
+  void cancelTicketShouldBlockAdultCancellationIfMinorWouldBeLeftAlone() {
+    TripRepository tripRepository = Mockito.mock(TripRepository.class);
+    SeatRepository seatRepository = Mockito.mock(SeatRepository.class);
+    ReservationRepository reservationRepository = Mockito.mock(ReservationRepository.class);
+    TicketRepository ticketRepository = Mockito.mock(TicketRepository.class);
+    PaymentRepository paymentRepository = Mockito.mock(PaymentRepository.class);
+    IyziPaymentService iyziPaymentService = Mockito.mock(IyziPaymentService.class);
+    ApplicationEventPublisher eventPublisher = Mockito.mock(ApplicationEventPublisher.class);
+
+    BookingService bookingService =
+        new BookingService(
+            tripRepository,
+            seatRepository,
+            reservationRepository,
+            ticketRepository,
+            paymentRepository,
+            iyziPaymentService,
+            eventPublisher);
+
+    User user = new User();
+    user.setId(UUID.randomUUID());
+
+    Reservation reservation = new Reservation();
+    reservation.setId(UUID.randomUUID());
+
+    Trip trip = new Trip();
+    trip.setDepartureTime(LocalDateTime.now().plusDays(20));
+
+    Seat adultSeat = new Seat();
+    adultSeat.setSeatNumber(7);
+    Seat minorSeat = new Seat();
+    minorSeat.setSeatNumber(8);
+
+    Ticket adultTicket = new Ticket();
+    adultTicket.setId(UUID.randomUUID());
+    adultTicket.setUser(user);
+    adultTicket.setReservation(reservation);
+    adultTicket.setTrip(trip);
+    adultTicket.setSeat(adultSeat);
+    adultTicket.setPassengerAge(34);
+    adultTicket.setPrice(BigDecimal.valueOf(350));
+    adultTicket.setCreatedAt(Instant.now());
+
+    Ticket minorTicket = new Ticket();
+    minorTicket.setId(UUID.randomUUID());
+    minorTicket.setUser(user);
+    minorTicket.setReservation(reservation);
+    minorTicket.setTrip(trip);
+    minorTicket.setSeat(minorSeat);
+    minorTicket.setPassengerAge(12);
+    minorTicket.setPrice(BigDecimal.valueOf(350));
+    minorTicket.setCreatedAt(Instant.now());
+
+    when(ticketRepository.findByIdAndUser(adultTicket.getId(), user)).thenReturn(Optional.of(adultTicket));
+    when(ticketRepository.findByReservationOrderByCreatedAtAsc(reservation)).thenReturn(List.of(adultTicket, minorTicket));
+
+    ResponseStatusException error =
+        assertThrows(
+            ResponseStatusException.class,
+            () -> bookingService.cancelTicket(user, adultTicket.getId().toString()));
+
+    assertEquals(409, error.getStatusCode().value());
+    assertEquals(
+        "Passengers under 18 cannot travel alone. This adult ticket cannot be cancelled.",
+        error.getReason());
+    verify(ticketRepository, never()).delete(any(Ticket.class));
+  }
+
+  @Test
+  void listTicketsShouldHidePastTripsFromBookings() {
+    TripRepository tripRepository = Mockito.mock(TripRepository.class);
+    SeatRepository seatRepository = Mockito.mock(SeatRepository.class);
+    ReservationRepository reservationRepository = Mockito.mock(ReservationRepository.class);
+    TicketRepository ticketRepository = Mockito.mock(TicketRepository.class);
+    PaymentRepository paymentRepository = Mockito.mock(PaymentRepository.class);
+    IyziPaymentService iyziPaymentService = Mockito.mock(IyziPaymentService.class);
+    ApplicationEventPublisher eventPublisher = Mockito.mock(ApplicationEventPublisher.class);
+
+    BookingService bookingService =
+        new BookingService(
+            tripRepository,
+            seatRepository,
+            reservationRepository,
+            ticketRepository,
+            paymentRepository,
+            iyziPaymentService,
+            eventPublisher);
+
+    User user = new User();
+    user.setEmail("user@busgo.local");
+    user.setUsername("Passenger");
+
+    com.busgo.model.City fromCity = new com.busgo.model.City();
+    fromCity.setName("Ankara");
+    com.busgo.model.City toCity = new com.busgo.model.City();
+    toCity.setName("Izmir");
+    com.busgo.model.BusCompany company = new com.busgo.model.BusCompany();
+    company.setName("BusGo Express");
+    Reservation reservation = new Reservation();
+    reservation.setId(UUID.randomUUID());
+
+    Seat seat = new Seat();
+    seat.setSeatNumber(5);
+
+    Trip futureTrip = new Trip();
+    futureTrip.setFromCity(fromCity);
+    futureTrip.setToCity(toCity);
+    futureTrip.setCompany(company);
+    futureTrip.setDepartureTime(LocalDateTime.now().plusDays(3));
+
+    Ticket futureTicket = new Ticket();
+    futureTicket.setId(UUID.randomUUID());
+    futureTicket.setUser(user);
+    futureTicket.setReservation(reservation);
+    futureTicket.setTrip(futureTrip);
+    futureTicket.setSeat(seat);
+    futureTicket.setPassengerName("Future Passenger");
+    futureTicket.setPassengerAge(25);
+    futureTicket.setPrice(BigDecimal.valueOf(450));
+    futureTicket.setCreatedAt(Instant.now());
+
+    Trip pastTrip = new Trip();
+    pastTrip.setFromCity(fromCity);
+    pastTrip.setToCity(toCity);
+    pastTrip.setCompany(company);
+    pastTrip.setDepartureTime(LocalDateTime.now().minusDays(1));
+
+    Ticket pastTicket = new Ticket();
+    pastTicket.setId(UUID.randomUUID());
+    pastTicket.setUser(user);
+    pastTicket.setReservation(reservation);
+    pastTicket.setTrip(pastTrip);
+    pastTicket.setSeat(seat);
+    pastTicket.setPassengerName("Past Passenger");
+    pastTicket.setPassengerAge(25);
+    pastTicket.setPrice(BigDecimal.valueOf(450));
+    pastTicket.setCreatedAt(Instant.now());
+
+    when(ticketRepository.findByUser(user)).thenReturn(List.of(futureTicket, pastTicket));
+
+    assertEquals(1, bookingService.listTickets(user).size());
+    assertEquals("Future Passenger", bookingService.listTickets(user).getFirst().passengerName());
   }
 }

@@ -1,4 +1,4 @@
-const STORAGE_KEYS = {
+﻿const STORAGE_KEYS = {
   search: "busgo_search",
   trips: "busgo_trips",
   trip: "busgo_trip",
@@ -13,8 +13,8 @@ const STORAGE_KEYS = {
 };
 
 const CITY_OPTIONS = ["Istanbul", "Ankara", "Izmir", "Bursa", "Antalya", "Eskisehir"];
-const GENDER_ICONS = { male: "♂", female: "♀" };
-const SERVICE_ICONS = ["📶 WiFi", "🔌 USB", "📺 TV"];
+const GENDER_ICONS = { male: "\u2642", female: "\u2640" };
+const SERVICE_ICONS = ["WiFi", "USB", "TV"];
 const ROWS = 10;
 const COLS = 4;
 const VIP_ROWS = [1];
@@ -114,7 +114,7 @@ async function initChatbot(page) {
         </div>
         <div class="chatbot-header-actions">
           <button type="button" class="chatbot-text-btn" data-chatbot-reset>Yeni</button>
-          <button type="button" class="chatbot-close-btn" data-chatbot-close aria-label="Sohbeti kapat">×</button>
+          <button type="button" class="chatbot-close-btn" data-chatbot-close aria-label="Sohbeti kapat">&times;</button>
         </div>
       </header>
       <div class="chatbot-messages" data-chatbot-messages aria-live="polite"></div>
@@ -123,10 +123,10 @@ async function initChatbot(page) {
           type="text"
           class="chatbot-input"
           data-chatbot-input
-          placeholder="Orn: yarin Istanbul'dan Ankara'ya sefer var mi?"
+          placeholder="Örn: yarın İstanbul'dan Ankara'ya sefer var mı?"
           autocomplete="off"
         />
-        <button type="submit" class="btn btn-primary chatbot-send" data-chatbot-send>Gonder</button>
+        <button type="submit" class="btn btn-primary chatbot-send" data-chatbot-send>Gönder</button>
       </form>
     </section>
   `;
@@ -276,7 +276,7 @@ function createInitialChatbotState() {
       {
         id: "chatbot-welcome",
         role: "bot",
-        text: 'Merhaba. Sefer aramasi yapabilirim. Ornek: "yarin Istanbul\'dan Ankara\'ya sefer var mi?"',
+        text: "Merhaba. Sefer araması yapabilirim. Örnek: 'yarın İstanbul'dan Ankara'ya sefer var mı?'",
       },
     ],
     pendingSearch: null,
@@ -382,7 +382,7 @@ function renderChatbotAction(action) {
       data-to="${escapeHtml(action.to)}"
       data-date="${escapeHtml(action.date)}"
     >
-      ${escapeHtml(action.label || "Seferleri Ac")}
+      ${escapeHtml(action.label || "Seferleri Aç")}
     </button>
   `;
 }
@@ -483,20 +483,20 @@ async function buildChatbotReply(rawMessage, state, cityIndex) {
     if (criteria.preferNearest && !criteria.date) {
       return {
         role: "bot",
-        text: `${criteria.from} → ${criteria.to} rotasinda bugunden sonraki en yakin seferi bulamadim.`,
+        text: `${criteria.from} â†’ ${criteria.to} rotasinda bugunden sonraki en yakin seferi bulamadim.`,
       };
     }
     return {
       role: "bot",
-      text: `${formatChatbotDateLabel(criteria.date)} icin ${criteria.from} → ${criteria.to} rotasinda sefer bulamadim. Farkli bir tarih deneyebilirsin.`,
+      text: `${formatChatbotDateLabel(criteria.date)} icin ${criteria.from} â†’ ${criteria.to} rotasinda sefer bulamadim. Farkli bir tarih deneyebilirsin.`,
     };
   }
 
   let text = "";
   if (response.matchType === "route-nearest") {
-    text = `${criteria.from} → ${criteria.to} rotasindaki en yakin sefer tarihi ${formatChatbotDateLabel(effectiveDate)}. O gun icin ${trips.length} sefer getirdim.`;
+    text = `${criteria.from} â†’ ${criteria.to} rotasindaki en yakin sefer tarihi ${formatChatbotDateLabel(effectiveDate)}. O gun icin ${trips.length} sefer getirdim.`;
   } else if (response.matchType === "exact") {
-    text = `${formatChatbotDateLabel(criteria.date)} icin ${criteria.from} → ${criteria.to} rotasinda ${trips.length} sefer buldum.`;
+    text = `${formatChatbotDateLabel(criteria.date)} icin ${criteria.from} â†’ ${criteria.to} rotasinda ${trips.length} sefer buldum.`;
   } else {
     text = `${formatChatbotDateLabel(criteria.date)} icin direkt sefer bulamadim. En yakin ${trips.length} seferi getirdim.`;
   }
@@ -547,7 +547,7 @@ function buildChatbotSearchAction(criteria, trips) {
   const uniqueDates = [...new Set(trips.map((trip) => trip.date).filter(Boolean))];
   if (uniqueDates.length !== 1) return null;
   return {
-    label: "Seferleri Ac",
+    label: "Seferleri Aç",
     from: criteria.from,
     to: criteria.to,
     date: uniqueDates[0],
@@ -721,13 +721,13 @@ function extractChatbotCityMentions(normalizedMessage, cityIndex) {
 function normalizeChatbotText(value) {
   return String(value || "")
     .toLocaleLowerCase("tr-TR")
-    .replaceAll("ı", "i")
-    .replaceAll("ğ", "g")
-    .replaceAll("ü", "u")
-    .replaceAll("ş", "s")
-    .replaceAll("ö", "o")
-    .replaceAll("ç", "c")
-    .replaceAll(/['’`]/g, "")
+    .replaceAll("Ä±", "i")
+    .replaceAll("ÄŸ", "g")
+    .replaceAll("Ã¼", "u")
+    .replaceAll("ÅŸ", "s")
+    .replaceAll("Ã¶", "o")
+    .replaceAll("Ã§", "c")
+    .replaceAll(/['â€™`]/g, "")
     .replaceAll(/[^a-z0-9.\-/\s]/g, " ")
     .replaceAll(/\s+/g, " ")
     .trim();
@@ -922,7 +922,6 @@ async function initTripsPage() {
       renderTrips(visibleTrips, list, { append: true });
     } else {
       const hint = document.createElement("p");
-      hint.className = "subtle";
       hint.textContent = "Yakın tarihlerde sefer bulunamadı.";
       list.appendChild(hint);
     }
@@ -954,7 +953,7 @@ function initPassengerPage() {
   const continueBtn = document.getElementById("continueToSeatsBtn");
   const heading = document.getElementById("passengerTripMeta");
   if (!form || !list || !addBtn || !continueBtn || !heading) return;
-  heading.textContent = `${search.from} → ${search.to} • ${trip.departureTime} • ${search.date}`;
+  heading.textContent = `${search.from} -> ${search.to} - ${trip.departureTime} - ${search.date}`;
 
   const existing = readJson(STORAGE_KEYS.passengersDraft);
   const passengers =
@@ -1112,10 +1111,10 @@ function renderTrips(trips, list, options = {}) {
         <h3>${escapeHtml(trip.company)}</h3>
         <p><strong>Departure:</strong> ${escapeHtml(trip.departureTime)}</p>
         <p><strong>Duration:</strong> ${escapeHtml(trip.duration)}</p>
-        <p class="services">${SERVICE_ICONS.join(" • ")}</p>
+        <p class="services">${SERVICE_ICONS.join(" - ")}</p>
       </div>
       <div class="trip-right">
-        <p class="price">$${Number(trip.basePrice).toFixed(2)}</p>
+        <p class="price">${escapeHtml(formatCurrency(trip.basePrice))}</p>
         <button class="btn btn-primary" data-id="${escapeHtml(trip.id)}">Select</button>
       </div>
     `;
@@ -1154,7 +1153,7 @@ async function initSeatsPage() {
     warningsByPassenger: {},
     disabledBooking: !canBookTrip(trip.departureDateTime),
   };
-  seatMeta.textContent = `${search.from} → ${search.to} • ${trip.departureTime} • ${trip.duration} • ${trip.company}`;
+  seatMeta.textContent = `${search.from} -> ${search.to} - ${trip.departureTime} - ${trip.duration} - ${trip.company}`;
   continueBtn.disabled = state.disabledBooking;
   initSeatsCarousel();
 
@@ -1272,7 +1271,7 @@ async function initTicketPage() {
   if (!meta || !list || !total || !confirmBtn) return;
 
   meta.innerHTML = `
-    <p><strong>Route:</strong> ${escapeHtml(booking.search.from)} → ${escapeHtml(booking.search.to)}</p>
+    <p><strong>Route:</strong> ${escapeHtml(booking.search.from)} -> ${escapeHtml(booking.search.to)}</p>
     <p><strong>Date:</strong> ${escapeHtml(booking.search.date)}</p>
     <p><strong>Trip:</strong> ${escapeHtml(booking.trip.company)} at ${escapeHtml(booking.trip.departureTime)}</p>
   `;
@@ -1287,7 +1286,7 @@ async function initTicketPage() {
     `
     )
     .join("");
-  total.innerHTML = `<h2>Total: $${Number(booking.total).toFixed(2)}</h2>`;
+  total.innerHTML = `<h2>Total: ${escapeHtml(formatCurrency(booking.total))}</h2>`;
 
   confirmBtn.addEventListener("click", async () => {
     if (!ensureLoggedIn("Please login to continue", "ticket.html")) return;
@@ -1314,14 +1313,17 @@ function initCartPage() {
   const proceed = document.getElementById("proceedPaymentBtn");
   if (!meta || !list || !total || !proceed) return;
   meta.innerHTML = `
-    <p><strong>Route:</strong> ${escapeHtml(booking.search.from)} → ${escapeHtml(booking.search.to)}</p>
+    <p><strong>Route:</strong> ${escapeHtml(booking.search.from)} â†’ ${escapeHtml(booking.search.to)}</p>
     <p><strong>Date:</strong> ${escapeHtml(booking.search.date)}</p>
-    <p><strong>Trip:</strong> ${escapeHtml(booking.trip.company)} • ${escapeHtml(booking.trip.departureTime)}</p>
+    <p><strong>Trip:</strong> ${escapeHtml(booking.trip.company)} - ${escapeHtml(booking.trip.departureTime)}</p>
   `;
   list.innerHTML = booking.passengers
-    .map((p) => `<div class="ticket-passenger-row"><span>${escapeHtml(p.name)}</span><span>Seat ${p.seatNumber}</span><span>$${getPassengerPrice(booking, p).toFixed(2)}</span></div>`)
+    .map(
+      (p) =>
+        `<div class="ticket-passenger-row"><span>${escapeHtml(p.name)}</span><span>Seat ${p.seatNumber}</span><span>${escapeHtml(formatCurrency(getPassengerPrice(booking, p)))}</span></div>`
+    )
     .join("");
-  total.innerHTML = `<h2>Total: $${Number(booking.total).toFixed(2)}</h2>`;
+  total.innerHTML = `<h2>Total: ${escapeHtml(formatCurrency(booking.total))}</h2>`;
   proceed.addEventListener("click", () => redirect("payment.html"));
 }
 
@@ -1338,7 +1340,7 @@ async function initPaymentPage() {
   const total = Number(booking.total || 0);
   const currentBalance = Number(user.demoBalance || 0);
   summary.innerHTML = `
-    <p><strong>Route:</strong> ${escapeHtml(booking.search.from)} → ${escapeHtml(booking.search.to)}</p>
+    <p><strong>Route:</strong> ${escapeHtml(booking.search.from)} â†’ ${escapeHtml(booking.search.to)}</p>
     <p><strong>Passengers:</strong> ${booking.passengers.length}</p>
     <p><strong>Total:</strong> ${escapeHtml(formatCurrency(total))}</p>
     <p><strong>Demo Balance:</strong> ${escapeHtml(formatCurrency(currentBalance))}</p>
@@ -1498,17 +1500,37 @@ function initForgotPasswordFlow({ toggleId, formId, emailId, resultId, role }) {
   const form = document.getElementById(formId);
   const emailInput = document.getElementById(emailId);
   const result = document.getElementById(resultId);
-  if (!form || !emailInput || !result) return;
+  const modal = form?.closest(".forgot-modal");
+  if (!form || !emailInput || !result || !modal) return;
+
+  const closeModal = () => {
+    modal.hidden = true;
+    result.hidden = true;
+    result.innerHTML = "";
+    form.reset();
+  };
+
+  const openModal = () => {
+    modal.hidden = false;
+    result.hidden = true;
+    result.innerHTML = "";
+    window.setTimeout(() => emailInput.focus(), 0);
+  };
 
   toggle?.addEventListener("click", () => {
-    const shouldShow = form.hidden;
-    form.hidden = !shouldShow;
-    if (shouldShow) {
-      emailInput.focus();
-    } else {
-      result.hidden = true;
-      result.innerHTML = "";
-    }
+    openModal();
+  });
+
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) closeModal();
+  });
+
+  modal.querySelectorAll("[data-forgot-close]").forEach((button) => {
+    button.addEventListener("click", closeModal);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !modal.hidden) closeModal();
   });
 
   form.addEventListener("submit", async (event) => {
@@ -1521,9 +1543,13 @@ function initForgotPasswordFlow({ toggleId, formId, emailId, resultId, role }) {
         body: JSON.stringify({ email, role }),
       });
       result.hidden = false;
-      result.textContent = reset.message || "Temporary password sent to your email.";
-      showToast("Temporary password sent to your email.", "success");
+      result.textContent = reset.message || "If an account exists for this email address, password reset instructions have been sent.";
+      showToast("Password reset instructions sent.", "success");
       form.reset();
+      window.setTimeout(() => {
+        closeModal();
+        showToast("You can continue from the login screen.", "info");
+      }, 1200);
     } catch (error) {
       console.error(error);
       showToast(error.message || "Password reset failed.", "error");
@@ -1578,7 +1604,7 @@ async function initProfilePage() {
         ? `
           <article class="admin-item">
             <p><strong>${escapeHtml(createdAdmin.username)}</strong></p>
-            <p class="subtle small">${escapeHtml(createdAdmin.companyName)} • ${escapeHtml(createdAdmin.email)}</p>
+            <p class="subtle small">${escapeHtml(createdAdmin.companyName)} - ${escapeHtml(createdAdmin.email)}</p>
             <p class="ticket-meta">Role: ${escapeHtml(createdAdmin.role || "admin")}</p>
           </article>`
         : `<p class="subtle">Created admins will appear here after you add them.</p>`;
@@ -1635,9 +1661,9 @@ async function initProfilePage() {
             (ticket) => `
         <article class="ticket-item">
           <div class="ticket-details">
-            <p><strong>${escapeHtml(ticket.from)} → ${escapeHtml(ticket.to)}</strong></p>
-            <p class="ticket-meta">${escapeHtml(formatDeparture(ticket))} • ${escapeHtml(ticket.company)} • Seat ${escapeHtml(ticket.seatNumber)}</p>
-            <p class="ticket-meta">Passenger: ${escapeHtml(ticket.passengerName || "Passenger")} • $${Number(ticket.price).toFixed(2)}</p>
+            <p><strong>${escapeHtml(ticket.from)} -> ${escapeHtml(ticket.to)}</strong></p>
+            <p class="ticket-meta">${escapeHtml(formatDeparture(ticket))} - ${escapeHtml(ticket.company)} - Seat ${escapeHtml(ticket.seatNumber)}</p>
+            <p class="ticket-meta">Passenger: ${escapeHtml(ticket.passengerName || "Passenger")} - ${escapeHtml(formatCurrency(ticket.price))}</p>
             <p class="ticket-note ${ticket.cancellable ? "ticket-note-ok" : "ticket-note-blocked"}">
               ${escapeHtml(
                 ticket.cancellable
@@ -1681,7 +1707,7 @@ async function initProfilePage() {
     if (!ticket) return;
 
     const confirmed = window.confirm(
-      `${ticket.from} → ${ticket.to} seferindeki koltuk ${ticket.seatNumber} iptal edilsin mi?`
+      `Cancel seat ${ticket.seatNumber} for the ${ticket.from} -> ${ticket.to} trip?`
     );
     if (!confirmed) return;
 
@@ -1864,8 +1890,8 @@ async function initAdminPage() {
           .map(
             (t) => `
         <article class="admin-item admin-jitem">
-          <p><strong>${escapeHtml(t.from)} → ${escapeHtml(t.to)}</strong> (${escapeHtml(t.company)})</p>
-          <p>${escapeHtml(t.date)} ${escapeHtml(t.departureTime)} • $${Number(t.basePrice).toFixed(2)}</p>
+          <p><strong>${escapeHtml(t.from)} -> ${escapeHtml(t.to)}</strong> (${escapeHtml(t.company)})</p>
+          <p>${escapeHtml(t.date)} ${escapeHtml(t.departureTime)} - ${escapeHtml(formatCurrency(t.basePrice))}</p>
           <div class="admin-actions">
             <button class="btn ghost" data-edit="${escapeHtml(t.id)}">Edit</button>
             <button class="btn ghost" data-delete="${escapeHtml(t.id)}">Delete</button>
@@ -1888,7 +1914,7 @@ async function initAdminPage() {
             (b) => `
         <article class="admin-item admin-jitem">
           <p><strong>${escapeHtml(b.userName)}</strong> (${escapeHtml(b.userEmail)})</p>
-          <p>${escapeHtml(b.from)} → ${escapeHtml(b.to)} • ${escapeHtml(b.date)} • Seat ${b.seatNumber}</p>
+          <p>${escapeHtml(b.from)} -> ${escapeHtml(b.to)} - ${escapeHtml(b.date)} - Seat ${b.seatNumber}</p>
         </article>`
           )
           .join("")
@@ -2187,7 +2213,7 @@ function updateSummary(state) {
   box.innerHTML = `
     <p><strong>Selected:</strong> ${selected.map((s) => s.seatNumber).join(", ") || "-"}</p>
     <p><strong>Warnings:</strong> ${warningCount}</p>
-    <p><strong>Total:</strong> $${total.toFixed(2)}</p>
+    <p><strong>Total:</strong> ${escapeHtml(formatCurrency(total))}</p>
   `;
   setTimeout(() => box.classList.remove("pulse"), 250);
 }
@@ -2501,12 +2527,16 @@ function updateStoredUserBalance(balance) {
 
 function formatCurrency(value, currency = "TRY") {
   const numeric = Number(value || 0);
+  const safeNumber = Number.isNaN(numeric) ? 0 : numeric;
+  if (currency === "TRY") {
+    return `₺${safeNumber.toFixed(2).replace(".", ",")}`;
+  }
   return new Intl.NumberFormat("tr-TR", {
     style: "currency",
     currency,
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  }).format(Number.isNaN(numeric) ? 0 : numeric);
+  }).format(safeNumber);
 }
 
 function formatDate(date) {
@@ -2514,12 +2544,37 @@ function formatDate(date) {
 }
 
 function escapeHtml(value) {
-  return String(value)
+  return normalizeDisplayText(String(value))
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function normalizeDisplayText(value) {
+  return String(value || "")
+    .replaceAll("Ã§", "ç")
+    .replaceAll("Ã‡", "Ç")
+    .replaceAll("Ã¶", "ö")
+    .replaceAll("Ã–", "Ö")
+    .replaceAll("Ã¼", "ü")
+    .replaceAll("Ãœ", "Ü")
+    .replaceAll("ÄŸ", "ğ")
+    .replaceAll("Äž", "Ğ")
+    .replaceAll("Ä±", "ı")
+    .replaceAll("Ä°", "İ")
+    .replaceAll("ÅŸ", "ş")
+    .replaceAll("Åž", "Ş")
+    .replaceAll("â†’", "→")
+    .replaceAll("â€¢", "•")
+    .replaceAll("â™‚", "♂")
+    .replaceAll("â™€", "♀")
+    .replaceAll("Ã—", "×")
+    .replaceAll("â†", "←")
+    .replaceAll("VanG??!?Seyahat", "VanGölüSeyahat")
+    .replaceAll("VanG??l??Seyahat", "VanGölüSeyahat")
+    .replaceAll("VanG?l?Seyahat", "VanGölüSeyahat");
 }
 
 function initLandingEnhancements() {

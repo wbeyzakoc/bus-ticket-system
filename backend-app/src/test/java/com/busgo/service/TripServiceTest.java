@@ -2,6 +2,7 @@ package com.busgo.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -29,6 +30,7 @@ import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.server.ResponseStatusException;
 
 class TripServiceTest {
@@ -235,6 +237,70 @@ class TripServiceTest {
     assertEquals(tomorrowMorning.toLocalDate().toString(), response.requestedDate());
     assertEquals(2, response.trips().size());
     assertEquals("Van Morning", response.trips().getFirst().company());
+  }
+
+  @Test
+  void deleteAdminTripShouldSoftRemovePastTripWhenBookingsExist() {
+    CityRepository cityRepository = Mockito.mock(CityRepository.class);
+    BusCompanyRepository companyRepository = Mockito.mock(BusCompanyRepository.class);
+    BusRepository busRepository = Mockito.mock(BusRepository.class);
+    SeatRepository seatRepository = Mockito.mock(SeatRepository.class);
+    TripRepository tripRepository = Mockito.mock(TripRepository.class);
+    TicketRepository ticketRepository = Mockito.mock(TicketRepository.class);
+
+    TripService tripService =
+        new TripService(
+            cityRepository,
+            companyRepository,
+            busRepository,
+            seatRepository,
+            tripRepository,
+            ticketRepository);
+
+    Trip trip = new Trip();
+    trip.setId(UUID.randomUUID());
+    trip.setDepartureTime(LocalDateTime.now().minusDays(1));
+    trip.setStatus(TripStatus.SCHEDULED);
+
+    when(tripRepository.findById(trip.getId())).thenReturn(Optional.of(trip));
+    Mockito.doThrow(new DataIntegrityViolationException("fk")).when(tripRepository).delete(trip);
+
+    tripService.deleteAdminTrip(null, trip.getId().toString());
+
+    verify(tripRepository).save(argThat(saved -> saved.getStatus() == TripStatus.CANCELLED));
+  }
+
+  @Test
+  void deleteAdminTripShouldStillRejectFutureTripWhenBookingsExist() {
+    CityRepository cityRepository = Mockito.mock(CityRepository.class);
+    BusCompanyRepository companyRepository = Mockito.mock(BusCompanyRepository.class);
+    BusRepository busRepository = Mockito.mock(BusRepository.class);
+    SeatRepository seatRepository = Mockito.mock(SeatRepository.class);
+    TripRepository tripRepository = Mockito.mock(TripRepository.class);
+    TicketRepository ticketRepository = Mockito.mock(TicketRepository.class);
+
+    TripService tripService =
+        new TripService(
+            cityRepository,
+            companyRepository,
+            busRepository,
+            seatRepository,
+            tripRepository,
+            ticketRepository);
+
+    Trip trip = new Trip();
+    trip.setId(UUID.randomUUID());
+    trip.setDepartureTime(LocalDateTime.now().plusDays(2));
+    trip.setStatus(TripStatus.SCHEDULED);
+
+    when(tripRepository.findById(trip.getId())).thenReturn(Optional.of(trip));
+    Mockito.doThrow(new DataIntegrityViolationException("fk")).when(tripRepository).delete(trip);
+
+    ResponseStatusException error =
+        assertThrows(ResponseStatusException.class, () -> tripService.deleteAdminTrip(null, trip.getId().toString()));
+
+    assertEquals(409, error.getStatusCode().value());
+    assertEquals("Trip has existing bookings", error.getReason());
   }
 
   private static City city(String name) {

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -68,21 +69,19 @@ public class BookingMailService {
   }
 
   public void sendPasswordResetMail(String email, String userName, String temporaryPassword) {
-    String recipientEmail = email == null ? "" : email.trim();
-    if (recipientEmail.isBlank()) {
-      throw new IllegalStateException("Password reset email could not be sent because recipient email is missing.");
-    }
+    JavaMailSender mailSender = requireMailSender();
+    String recipientEmail = normalizeRecipientEmail(email);
+    String from = requireFromAddress();
+    queuePasswordResetMail(mailSender, from, recipientEmail, userName, temporaryPassword);
+  }
 
-    JavaMailSender mailSender = mailSenderProvider.getIfAvailable();
-    if (mailSender == null) {
-      throw new IllegalStateException("Mail service is not configured.");
-    }
-
-    String from = resolveFromAddress();
-    if (from.isBlank()) {
-      throw new IllegalStateException("Mail sender address is not configured.");
-    }
-
+  @Async
+  void queuePasswordResetMail(
+      JavaMailSender mailSender,
+      String from,
+      String recipientEmail,
+      String userName,
+      String temporaryPassword) {
     SimpleMailMessage message = new SimpleMailMessage();
     message.setFrom(from);
     message.setTo(recipientEmail);
@@ -93,8 +92,31 @@ public class BookingMailService {
       mailSender.send(message);
     } catch (MailException ex) {
       log.warn("Password reset email could not be sent to {}", recipientEmail, ex);
-      throw new IllegalStateException("Password reset email could not be sent right now.");
     }
+  }
+
+  private String normalizeRecipientEmail(String email) {
+    String recipientEmail = email == null ? "" : email.trim();
+    if (recipientEmail.isBlank()) {
+      throw new IllegalStateException("Password reset email could not be sent because recipient email is missing.");
+    }
+    return recipientEmail;
+  }
+
+  private JavaMailSender requireMailSender() {
+    JavaMailSender mailSender = mailSenderProvider.getIfAvailable();
+    if (mailSender == null) {
+      throw new IllegalStateException("Mail service is not configured.");
+    }
+    return mailSender;
+  }
+
+  private String requireFromAddress() {
+    String from = resolveFromAddress();
+    if (from.isBlank()) {
+      throw new IllegalStateException("Mail sender address is not configured.");
+    }
+    return from;
   }
 
   private SimpleMailMessage buildMessage(
