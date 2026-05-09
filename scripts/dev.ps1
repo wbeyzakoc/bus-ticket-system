@@ -13,7 +13,9 @@ $LocalEnvFile = Join-Path $RootDir ".env.local"
 $BackendPidFile = Join-Path $RunDir "backend.pid"
 $FrontendPidFile = Join-Path $RunDir "frontend.pid"
 $BackendLogFile = Join-Path $RunDir "backend.log"
+$BackendErrLogFile = Join-Path $RunDir "backend.err.log"
 $FrontendLogFile = Join-Path $RunDir "frontend.log"
+$FrontendErrLogFile = Join-Path $RunDir "frontend.err.log"
 
 $BackendHealthUrl = "http://127.0.0.1:8080/api/cities"
 $FrontendUrl = "http://127.0.0.1:8000/index.html"
@@ -65,9 +67,9 @@ function Get-PidFromFile([string]$Path) {
     return [int]$raw
 }
 
-function Test-PidRunning([int]$Pid) {
+function Test-PidRunning([int]$ProcessId) {
     try {
-        Get-Process -Id $Pid -ErrorAction Stop | Out-Null
+        Get-Process -Id $ProcessId -ErrorAction Stop | Out-Null
         return $true
     } catch {
         return $false
@@ -222,7 +224,7 @@ function Start-Backend {
         -ArgumentList @("spring-boot:run") `
         -WorkingDirectory $BackendDir `
         -RedirectStandardOutput $BackendLogFile `
-        -RedirectStandardError $BackendLogFile `
+        -RedirectStandardError $BackendErrLogFile `
         -PassThru
 
     Set-Content -Path $BackendPidFile -Value $process.Id
@@ -263,7 +265,7 @@ function Start-Frontend {
         -ArgumentList $pythonArgs `
         -WorkingDirectory $RootDir `
         -RedirectStandardOutput $FrontendLogFile `
-        -RedirectStandardError $FrontendLogFile `
+        -RedirectStandardError $FrontendErrLogFile `
         -PassThru
 
     Set-Content -Path $FrontendPidFile -Value $process.Id
@@ -353,7 +355,7 @@ function Print-Status {
         Write-Host "Frontend PID file: $FrontendPidFile ($frontendPid)"
     }
 
-    Write-Host "Logs: $BackendLogFile $FrontendLogFile"
+    Write-Host "Logs: $BackendLogFile $BackendErrLogFile $FrontendLogFile $FrontendErrLogFile"
 }
 
 function Show-Usage {
