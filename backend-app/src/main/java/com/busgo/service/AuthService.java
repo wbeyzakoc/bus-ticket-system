@@ -15,9 +15,12 @@ import com.busgo.repo.AuthTokenRepository;
 import com.busgo.repo.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,12 +31,14 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class AuthService {
   private static final BigDecimal FALLBACK_DEMO_BALANCE = BigDecimal.valueOf(5000);
+  private static final Duration FORGOT_PASSWORD_COOLDOWN = Duration.ofSeconds(60);
 
   private final UserRepository userRepository;
   private final AuthTokenRepository tokenRepository;
   private final PasswordEncoder passwordEncoder;
   private final BookingMailService bookingMailService;
   private final BigDecimal initialDemoBalance;
+  private final Map<String, Instant> forgotPasswordRequests = new ConcurrentHashMap<>();
 
   public AuthService(
       UserRepository userRepository,
@@ -126,6 +131,9 @@ public class AuthService {
           HttpStatus.BAD_REQUEST, "No matching account found for this reset request");
     }
 
+    String resetKey = user.getRole().name() + ":" + user.getEmail();
+    enforceForgotPasswordCooldown(resetKey);
+
     String temporaryPassword = generateTemporaryPassword();
     user.setPasswordHash(passwordEncoder.encode(temporaryPassword));
     userRepository.save(user);
@@ -134,6 +142,7 @@ public class AuthService {
     try {
       bookingMailService.sendPasswordResetMail(user.getEmail(), user.getUsername(), temporaryPassword);
     } catch (IllegalStateException ex) {
+      forgotPasswordRequests.remove(resetKey);
       throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
     }
 
@@ -194,6 +203,18 @@ public class AuthService {
 
   private String normalizeEmail(String email) {
     return email == null ? "" : email.trim().toLowerCase(Locale.US);
+  }
+
+  private synchronized void enforceForgotPasswordCooldown(String resetKey) {
+    Instant now = Instant.now();
+    Instant previousReset = forgotPasswordRequests.get(resetKey);
+    if (previousReset != null
+        && previousReset.plus(FORGOT_PASSWORD_COOLDOWN).isAfter(now)) {
+      throw new ResponseStatusException(
+          HttpStatus.TOO_MANY_REQUESTS,
+          "Password reset email was already sent. Please wait before trying again.");
+    }
+    forgotPasswordRequests.put(resetKey, now);
   }
 
   private String normalizeRequiredValue(String value, String message) {
