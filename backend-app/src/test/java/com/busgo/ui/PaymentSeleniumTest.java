@@ -1,5 +1,6 @@
 package com.busgo.ui;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -92,6 +93,37 @@ class PaymentSeleniumTest extends BaseFrontendSeleniumTest {
 
     driver.findElement(By.cssSelector("#paymentForm button[type='submit']")).click();
 
-    assertTrue(waitForToastText().contains("Invalid CVV."));
+    assertFormAndFieldInvalid("paymentForm", "#cardCvv");
+  }
+
+  @Test
+  void tc081_expiryShouldAutoInsertSlash() {
+    preparePaymentPage();
+
+    setInputValue("#cardExpiry", "1230");
+
+    assertEquals("12/30", driver.findElement(By.id("cardExpiry")).getAttribute("value"));
+  }
+
+  @Test
+  void tc082_cvvShouldNotAcceptMoreThanThreeDigits() {
+    preparePaymentPage();
+
+    setInputValue("#cardCvv", "1234");
+
+    assertEquals("123", driver.findElement(By.id("cardCvv")).getAttribute("value"));
+  }
+
+  @Test
+  void tc083_expiredExpiryDateShouldShowValidationToast() {
+    preparePaymentPage();
+    setInputValue("#cardNumber", "5528790000000008");
+    setInputValue("#cardName", "Ali Yilmaz");
+    setInputValue("#cardExpiry", "01/20");
+    setInputValue("#cardCvv", "123");
+
+    driver.findElement(By.cssSelector("#paymentForm button[type='submit']")).click();
+
+    assertTrue(waitForToastText().contains("Expiry date cannot be in the past."));
   }
 }

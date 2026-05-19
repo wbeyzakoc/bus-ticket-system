@@ -196,7 +196,7 @@ abstract class BaseFrontendSeleniumTest {
     setInputValue(".tc-no", "12345678901");
     setInputValue(".age", "25");
     setInputValue(".email", "ali@example.com");
-    setInputValue(".phone", "+905551112233");
+    setInputValue(".phone", "+90(555) 111 22 33");
   }
 
   protected void prepareSeatsPage() {
@@ -210,7 +210,7 @@ abstract class BaseFrontendSeleniumTest {
         "{\"id\":\"trip-1\",\"company\":\"BusGo Express\",\"departureTime\":\"09:30\",\"duration\":\"6h 15m\",\"basePrice\":450,"
             + "\"departureDateTime\":\"2030-01-15T09:30:00\"}",
         "[{\"firstName\":\"Ali\",\"lastName\":\"Yilmaz\",\"name\":\"Ali Yilmaz\",\"tc\":\"12345678901\","
-            + "\"age\":25,\"email\":\"ali@example.com\",\"phone\":\"+905551112233\",\"gender\":\"male\","
+            + "\"age\":25,\"email\":\"ali@example.com\",\"phone\":\"+90(555) 111 22 33\",\"gender\":\"male\","
             + "\"baggage\":15,\"seatNumber\":null}]",
         "{\"username\":\"Ali Yilmaz\",\"email\":\"ali@example.com\",\"role\":\"user\",\"demoBalance\":5000}");
     openPage("seats.html");

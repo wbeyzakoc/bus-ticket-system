@@ -22,6 +22,10 @@ const VIP_SURCHARGE = 0.4;
 const OVERWEIGHT_THRESHOLD = 30;
 const OVERWEIGHT_FEE_PER_KG = 2;
 const TC_REGEX = /^\d{11}$/;
+const PHONE_PREFIX = "+90(";
+const PHONE_MAX_LENGTH = 18;
+const PHONE_PATTERN = "\\+90\\(\\d{3}\\) \\d{3} \\d{2} \\d{2}";
+const PHONE_REGEX = /^\+90\(\d{3}\) \d{3} \d{2} \d{2}$/;
 const API_BASE = `${window.location.protocol}//${window.location.hostname}:8080/api`;
 const CHATBOT_DISABLED_PAGES = new Set(["admin", "admin-login"]);
 const CHATBOT_MAX_MESSAGES = 40;
@@ -42,6 +46,109 @@ const CHATBOT_MONTHS = {
 
 function sanitizeTc(value) {
   return String(value || "").replace(/\D/g, "").slice(0, 11);
+}
+
+function extractPhoneLocalDigits(value) {
+  const raw = String(value || "");
+  let digits = raw.replace(/\D/g, "");
+  while (digits.startsWith("90") && (raw.trim().startsWith("+90") || digits.length > 10)) {
+    digits = digits.slice(2);
+  }
+  while (digits.startsWith("0") && digits.length > 10) {
+    digits = digits.slice(1);
+  }
+  return digits.slice(0, 10);
+}
+
+function formatPhoneNumber(value, keepPrefix = false) {
+  const digits = extractPhoneLocalDigits(value);
+  if (!digits) return keepPrefix ? PHONE_PREFIX : "";
+
+  let formatted = `${PHONE_PREFIX}${digits.slice(0, 3)}`;
+  if (digits.length >= 3) formatted += ")";
+  if (digits.length > 3) formatted += ` ${digits.slice(3, 6)}`;
+  if (digits.length > 6) formatted += ` ${digits.slice(6, 8)}`;
+  if (digits.length > 8) formatted += ` ${digits.slice(8, 10)}`;
+  return formatted;
+}
+
+function applyPhoneMask(input) {
+  if (!input || input.dataset.phoneMaskReady === "true") return;
+  input.dataset.phoneMaskReady = "true";
+  input.type = "tel";
+  input.inputMode = "numeric";
+  input.maxLength = PHONE_MAX_LENGTH;
+  input.pattern = PHONE_PATTERN;
+  input.placeholder = "+90(111) 111 11 11";
+  input.title = "Enter phone as +90(111) 111 11 11.";
+  input.value = formatPhoneNumber(input.value);
+
+  input.addEventListener("focus", () => {
+    if (!input.value) input.value = PHONE_PREFIX;
+  });
+
+  input.addEventListener("input", () => {
+    const nextValue = formatPhoneNumber(input.value, true);
+    input.value = nextValue;
+    input.setSelectionRange(nextValue.length, nextValue.length);
+  });
+
+  input.addEventListener("blur", () => {
+    if (!extractPhoneLocalDigits(input.value).length) input.value = "";
+  });
+}
+
+function applyPhoneMasks(root = document) {
+  root.querySelectorAll("[data-phone-mask], #adminCompanyPhone, .phone").forEach(applyPhoneMask);
+}
+
+function formatExpiry(value) {
+  const digits = String(value || "").replace(/\D/g, "").slice(0, 4);
+  if (digits.length <= 2) return digits;
+  return `${digits.slice(0, 2)}/${digits.slice(2)}`;
+}
+
+function sanitizeCvv(value) {
+  return String(value || "").replace(/\D/g, "").slice(0, 3);
+}
+
+function isExpiredCardExpiry(value, referenceDate = new Date()) {
+  const match = /^(\d{2})\/(\d{2})$/.exec(String(value || ""));
+  if (!match) return false;
+  const month = Number(match[1]);
+  const year = Number(match[2]);
+  if (month < 1 || month > 12) return true;
+
+  const currentMonth = referenceDate.getMonth() + 1;
+  const currentYear = referenceDate.getFullYear() % 100;
+  return year < currentYear || (year === currentYear && month < currentMonth);
+}
+
+function applyPaymentInputMasks(root = document) {
+  const expiryInput = root.getElementById?.("cardExpiry") || root.querySelector?.("#cardExpiry");
+  const cvvInput = root.getElementById?.("cardCvv") || root.querySelector?.("#cardCvv");
+
+  if (expiryInput) {
+    expiryInput.inputMode = "numeric";
+    expiryInput.maxLength = 5;
+    expiryInput.pattern = "\\d{2}/\\d{2}";
+    expiryInput.addEventListener("input", () => {
+      const nextValue = formatExpiry(expiryInput.value);
+      expiryInput.value = nextValue;
+      expiryInput.setSelectionRange(nextValue.length, nextValue.length);
+    });
+    expiryInput.value = formatExpiry(expiryInput.value);
+  }
+
+  if (cvvInput) {
+    cvvInput.inputMode = "numeric";
+    cvvInput.maxLength = 3;
+    cvvInput.pattern = "\\d{3}";
+    cvvInput.addEventListener("input", () => {
+      cvvInput.value = sanitizeCvv(cvvInput.value);
+    });
+    cvvInput.value = sanitizeCvv(cvvInput.value);
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -831,6 +938,16 @@ function populateCompanySelect(select, companies) {
   });
 }
 
+function normalizeCompanyNames(companies) {
+  const names = Array.isArray(companies)
+    ? companies
+        .map((company) => (typeof company === "string" ? company : company?.name))
+        .map((name) => String(name || "").trim())
+        .filter(Boolean)
+    : [];
+  return [...new Set(names)].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
+}
+
 async function initSearchPage() {
   const fromEl = document.getElementById("fromCity");
   const toEl = document.getElementById("toCity");
@@ -953,6 +1070,7 @@ function initPassengerPage() {
   const continueBtn = document.getElementById("continueToSeatsBtn");
   const heading = document.getElementById("passengerTripMeta");
   if (!form || !list || !addBtn || !continueBtn || !heading) return;
+  form.noValidate = true;
   heading.textContent = `${search.from} -> ${search.to} - ${trip.departureTime} - ${search.date}`;
 
   const existing = readJson(STORAGE_KEYS.passengersDraft);
@@ -965,6 +1083,7 @@ function initPassengerPage() {
     list.innerHTML = passengers
       .map((p, idx) => renderPassengerCard(p, idx, errors[idx] || {}))
       .join("");
+    applyPhoneMasks(list);
   };
 
   const collect = () => {
@@ -976,7 +1095,7 @@ function initPassengerPage() {
       tc: sanitizeTc(card.querySelector(".tc-no")?.value || ""),
       age: Number(card.querySelector(".age")?.value || 0),
       email: String(card.querySelector(".email")?.value || "").trim(),
-      phone: String(card.querySelector(".phone")?.value || "").trim(),
+      phone: formatPhoneNumber(card.querySelector(".phone")?.value || "").trim(),
       gender: String(card.querySelector(".gender")?.value || "male"),
       baggage: Number(card.querySelector(".baggage")?.value || 15),
     }));
@@ -1337,6 +1456,7 @@ async function initPaymentPage() {
   const summary = document.getElementById("paymentSummary");
   const form = document.getElementById("paymentForm");
   if (!summary || !form) return;
+  applyPaymentInputMasks(document);
   const total = Number(booking.total || 0);
   const currentBalance = Number(user.demoBalance || 0);
   summary.innerHTML = `
@@ -1357,11 +1477,12 @@ async function initPaymentPage() {
     const cardNumber = String(document.getElementById("cardNumber")?.value || "").replace(/\s+/g, "");
     const cardName = String(document.getElementById("cardName")?.value || "").trim();
     const expiry = String(document.getElementById("cardExpiry")?.value || "").trim();
-    const cvv = String(document.getElementById("cardCvv")?.value || "").trim();
+    const cvv = sanitizeCvv(document.getElementById("cardCvv")?.value || "");
     if (!/^\d{16}$/.test(cardNumber)) return showToast("Card number must be 16 digits.", "error");
     if (!cardName) return showToast("Card holder name is required.", "error");
     if (!/^\d{2}\/\d{2}$/.test(expiry)) return showToast("Expiry must be MM/YY format.", "error");
-    if (!/^\d{3,4}$/.test(cvv)) return showToast("Invalid CVV.", "error");
+    if (isExpiredCardExpiry(expiry)) return showToast("Expiry date cannot be in the past.", "error");
+    if (!/^\d{3}$/.test(cvv)) return showToast("Invalid CVV.", "error");
     const items = booking.passengers.map((passenger) => ({
       seatNumber: Number(passenger.seatNumber || 0),
       amount: Number(getPassengerPrice(booking, passenger).toFixed(2)),
@@ -1593,10 +1714,40 @@ async function initProfilePage() {
   if ((user.role || "").toLowerCase() === "admin") {
     if (ticketsSection) ticketsSection.hidden = true;
     if (adminSection) adminSection.hidden = false;
-    if (adminCompanyInput && scopedCompanyName) {
-      adminCompanyInput.value = scopedCompanyName;
-      adminCompanyInput.readOnly = true;
-    }
+
+    const setAdminCompanyPlaceholder = (text) => {
+      const placeholder = adminCompanyInput?.querySelector('option[value=""]');
+      if (placeholder) placeholder.textContent = text;
+    };
+
+    const loadAdminCompanyOptions = async () => {
+      if (!adminCompanyInput) return;
+      if (scopedCompanyName) {
+        populateCompanySelect(adminCompanyInput, [scopedCompanyName]);
+        adminCompanyInput.value = scopedCompanyName;
+        adminCompanyInput.disabled = true;
+        return;
+      }
+
+      adminCompanyInput.disabled = true;
+      setAdminCompanyPlaceholder("Loading companies...");
+      try {
+        const companies = await apiFetch("/admin/companies");
+        const companyNames = normalizeCompanyNames(companies);
+        populateCompanySelect(adminCompanyInput, companyNames);
+        setAdminCompanyPlaceholder(companyNames.length ? "Select company" : "No companies available");
+        adminCompanyInput.disabled = false;
+        if (!companyNames.length) {
+          showToast("Add a company before creating an admin.", "warning");
+        }
+      } catch (error) {
+        console.error(error);
+        populateCompanySelect(adminCompanyInput, []);
+        setAdminCompanyPlaceholder("Companies could not be loaded");
+        adminCompanyInput.disabled = false;
+        showToast("Companies could not be loaded.", "error");
+      }
+    };
 
     const renderCreateResult = (createdAdmin = null) => {
       if (!adminCreateResult) return;
@@ -1611,6 +1762,7 @@ async function initProfilePage() {
     };
 
     renderCreateResult();
+    await loadAdminCompanyOptions();
 
     adminCreateForm?.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -1755,6 +1907,7 @@ async function initAdminPage() {
   const adminFrom = document.getElementById("adminFrom");
   const adminTo = document.getElementById("adminTo");
   const adminCompany = document.getElementById("adminCompany");
+  const adminDateInput = document.getElementById("adminDate");
   const adminCompanyNameInput = document.getElementById("adminCompanyName");
   const adminCompanyPhoneInput = document.getElementById("adminCompanyPhone");
   const adminCompanyEmailInput = document.getElementById("adminCompanyEmail");
@@ -1769,11 +1922,15 @@ async function initAdminPage() {
     !companyList ||
     !adminFrom ||
     !adminTo ||
+    !adminDateInput ||
     !adminCompany
   ) {
     return;
   }
   if (companySection) companySection.hidden = !canManageCompanies;
+  const minAdminDate = formatDate(new Date());
+  adminDateInput.min = minAdminDate;
+  applyPhoneMasks(document);
 
   let adminTrips = [];
   let adminCities = [];
@@ -1784,6 +1941,29 @@ async function initAdminPage() {
   const syncCompanyForm = () => {
     if (!canManageCompanies || !adminCompanyNameInput) return;
     adminCompanyNameInput.readOnly = false;
+  };
+
+  const syncAdminRouteSelects = (changedSelect = null) => {
+    const initialFrom = String(adminFrom.value || "");
+    const initialTo = String(adminTo.value || "");
+    if (initialFrom && initialTo && initialFrom === initialTo && changedSelect) {
+      const otherSelect = changedSelect === adminFrom ? adminTo : adminFrom;
+      otherSelect.value = "";
+    }
+
+    const fromValue = String(adminFrom.value || "");
+    const toValue = String(adminTo.value || "");
+    Array.from(adminFrom.options).forEach((option) => {
+      option.disabled = Boolean(option.value && option.value === toValue);
+    });
+    Array.from(adminTo.options).forEach((option) => {
+      option.disabled = Boolean(option.value && option.value === fromValue);
+    });
+
+    const sameRouteSelected = Boolean(fromValue && toValue && fromValue === toValue);
+    const validationMessage = sameRouteSelected ? "Origin and destination cannot be the same." : "";
+    adminFrom.setCustomValidity(validationMessage);
+    adminTo.setCustomValidity(validationMessage);
   };
 
   const renderCities = () => {
@@ -1860,6 +2040,7 @@ async function initAdminPage() {
     populateCitySelect(adminTo, cityNames);
     if (fromVal) adminFrom.value = fromVal;
     if (toVal) adminTo.value = toVal;
+    syncAdminRouteSelects();
 
     const companyNames = isCompanyScopedAdmin
       ? [scopedCompanyName]
@@ -1969,7 +2150,7 @@ async function initAdminPage() {
       return showToast("Only admin@busgo.com can manage companies.", "error");
     }
     const name = String(document.getElementById("adminCompanyName")?.value || "").trim();
-    const phone = String(document.getElementById("adminCompanyPhone")?.value || "").trim();
+    const phone = formatPhoneNumber(document.getElementById("adminCompanyPhone")?.value || "").trim();
     const email = String(document.getElementById("adminCompanyEmail")?.value || "").trim();
     const logoUrl = String(document.getElementById("adminCompanyLogo")?.value || "").trim();
     if (!name) return showToast("Company name is required.", "error");
@@ -1984,6 +2165,9 @@ async function initAdminPage() {
     }
   });
 
+
+  adminFrom.addEventListener("change", () => syncAdminRouteSelects(adminFrom));
+  adminTo.addEventListener("change", () => syncAdminRouteSelects(adminTo));
 
   cityList.addEventListener("click", async (event) => {
     const target = event.target;
@@ -2031,6 +2215,7 @@ async function initAdminPage() {
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
+    syncAdminRouteSelects();
     const editingId = form.getAttribute("data-edit-id");
     const trip = {
       from: String(document.getElementById("adminFrom")?.value || ""),
@@ -2040,10 +2225,16 @@ async function initAdminPage() {
       basePrice: Number(document.getElementById("adminPrice")?.value || 0),
       company: isCompanyScopedAdmin
         ? scopedCompanyName
-        : String(document.getElementById("adminCompany")?.value || "Admin Bus"),
+        : String(document.getElementById("adminCompany")?.value || ""),
     };
     if (!trip.from || !trip.to || !trip.date || !trip.departureTime || !trip.basePrice || !trip.company) {
       return showToast("Complete all trip fields.", "error");
+    }
+    if (trip.from === trip.to) {
+      return showToast("Origin and destination cannot be the same.", "error");
+    }
+    if (trip.date < minAdminDate) {
+      return showToast("Trip date cannot be in the past.", "error");
     }
     try {
       if (editingId) {
@@ -2090,6 +2281,7 @@ async function initAdminPage() {
       setInput("adminTime", t.departureTime);
       setInput("adminPrice", String(t.basePrice));
       setInput("adminCompany", isCompanyScopedAdmin ? scopedCompanyName : t.company);
+      syncAdminRouteSelects();
       showToast("Trip loaded for edit.", "info");
     }
   });
@@ -2284,7 +2476,7 @@ function renderPassengerCard(passenger, idx, errors) {
         <label><span>TC ID</span><input class="tc-no ${invalid("tc")}" value="${escapeHtml(sanitizeTc(passenger.tc || ""))}" placeholder="11 digit TC" maxlength="11" inputmode="numeric" pattern="\\d{11}" />${fieldError("tc")}</label>
         <label><span>Age</span><input class="age ${invalid("age")}" type="number" min="0" max="100" value="${Number(passenger.age || 0)}" />${fieldError("age")}</label>
         <label><span>Email</span><input class="email ${invalid("email")}" type="email" value="${escapeHtml(passenger.email || "")}" placeholder="name@example.com" />${fieldError("email")}</label>
-        <label><span>Phone</span><input class="phone ${invalid("phone")}" value="${escapeHtml(passenger.phone || "")}" placeholder="+90 5xx xxx xx xx" />${fieldError("phone")}</label>
+        <label><span>Phone</span><input class="phone ${invalid("phone")}" type="tel" data-phone-mask value="${escapeHtml(formatPhoneNumber(passenger.phone || ""))}" placeholder="+90(111) 111 11 11" maxlength="${PHONE_MAX_LENGTH}" inputmode="numeric" pattern="${PHONE_PATTERN}" />${fieldError("phone")}</label>
         <label><span>Gender</span><select class="gender"><option value="male" ${passenger.gender === "male" ? "selected" : ""}>Male</option><option value="female" ${passenger.gender === "female" ? "selected" : ""}>Female</option></select></label>
         <label><span>Baggage (kg)</span><input class="baggage" type="number" min="0" max="80" value="${Number(passenger.baggage || 15)}" /></label>
       </div>
@@ -2297,7 +2489,6 @@ function validatePassengerForm(passengers) {
   let hasError = false;
   const tcSeen = new Map();
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const phoneRegex = /^\+?[0-9\s\-()]{10,20}$/;
 
   passengers.forEach((p, idx) => {
     errors[idx] = {};
@@ -2310,7 +2501,7 @@ function validatePassengerForm(passengers) {
 
     if (p.tc && !TC_REGEX.test(p.tc)) errors[idx].tc = "TC must be 11 digits";
     if (p.email && !emailRegex.test(p.email)) errors[idx].email = "Invalid email format";
-    if (p.phone && !phoneRegex.test(p.phone)) errors[idx].phone = "Invalid phone format";
+    if (p.phone && !PHONE_REGEX.test(p.phone)) errors[idx].phone = "Invalid phone format";
     if (p.age < 0 || p.age > 100) errors[idx].age = "Age must be between 0 and 100";
 
     if (p.tc) {

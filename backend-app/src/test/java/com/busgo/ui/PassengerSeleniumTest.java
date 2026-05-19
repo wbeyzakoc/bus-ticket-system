@@ -116,7 +116,7 @@ class PassengerSeleniumTest extends BaseFrontendSeleniumTest {
   void tc059_validInternationalPhoneShouldProceedToSeats() {
     preparePassengerPage();
     fillPassengerWithValidDefaults();
-    setInputValue(".phone", "+905551112233");
+    setInputValue(".phone", "+90(555) 111 22 33");
 
     driver.findElement(By.id("continueToSeatsBtn")).click();
 

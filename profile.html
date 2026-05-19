@@ -38,7 +38,7 @@
         <form id="profileAdminCreateForm" class="admin-form">
           <label><span>Name</span><input id="profileAdminFirstName" type="text" autocomplete="given-name" required /></label>
           <label><span>Surname</span><input id="profileAdminLastName" type="text" autocomplete="family-name" required /></label>
-          <label><span>Company Name</span><input id="profileAdminCompanyName" type="text" required /></label>
+          <label><span>Company Name</span><select id="profileAdminCompanyName" required><option value="">Select company</option></select></label>
           <label><span>Email</span><input id="profileAdminEmail" type="email" autocomplete="email" required /></label>
           <label><span>Password</span><input id="profileAdminPassword" type="password" autocomplete="new-password" required /></label>
           <button type="submit" class="btn btn-primary">Add Admin</button>
@@ -48,6 +48,6 @@
     </main>
 
     <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
-    <script src="script.js?v=20260509_12"></script>
+    <script src="script.js?v=20260519_01"></script>
   </body>
 </html>

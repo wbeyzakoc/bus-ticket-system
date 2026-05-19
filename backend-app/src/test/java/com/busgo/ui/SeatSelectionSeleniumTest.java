@@ -66,9 +66,9 @@ class SeatSelectionSeleniumTest extends BaseFrontendSeleniumTest {
     setLocalStorage("busgo_trip", "{\"id\":\"trip-1\",\"company\":\"BusGo Express\",\"departureTime\":\"09:30\",\"duration\":\"6h 15m\",\"basePrice\":450,"
         + "\"departureDateTime\":\"2030-01-15T09:30:00\"}");
     setLocalStorage("busgo_passengers_draft", "[{\"firstName\":\"Ali\",\"lastName\":\"Yilmaz\",\"name\":\"Ali Yilmaz\",\"tc\":\"12345678901\","
-        + "\"age\":25,\"email\":\"ali@example.com\",\"phone\":\"+905551112233\",\"gender\":\"male\",\"baggage\":15,\"seatNumber\":null},"
+        + "\"age\":25,\"email\":\"ali@example.com\",\"phone\":\"+90(555) 111 22 33\",\"gender\":\"male\",\"baggage\":15,\"seatNumber\":null},"
         + "{\"firstName\":\"Ayse\",\"lastName\":\"Kaya\",\"name\":\"Ayse Kaya\",\"tc\":\"12345678902\","
-        + "\"age\":24,\"email\":\"ayse@example.com\",\"phone\":\"+905551234567\",\"gender\":\"female\",\"baggage\":15,\"seatNumber\":null}]");
+        + "\"age\":24,\"email\":\"ayse@example.com\",\"phone\":\"+90(555) 123 45 67\",\"gender\":\"female\",\"baggage\":15,\"seatNumber\":null}]");
     setLocalStorage("busgo_user", "{\"username\":\"Ali Yilmaz\",\"email\":\"ali@example.com\",\"role\":\"user\",\"demoBalance\":5000}");
     openPage("seats.html");
 
@@ -88,9 +88,9 @@ class SeatSelectionSeleniumTest extends BaseFrontendSeleniumTest {
     setLocalStorage("busgo_trip", "{\"id\":\"trip-1\",\"company\":\"BusGo Express\",\"departureTime\":\"09:30\",\"duration\":\"6h 15m\",\"basePrice\":450,"
         + "\"departureDateTime\":\"2030-01-15T09:30:00\"}");
     setLocalStorage("busgo_passengers_draft", "[{\"firstName\":\"Ali\",\"lastName\":\"Yilmaz\",\"name\":\"Ali Yilmaz\",\"tc\":\"12345678901\","
-        + "\"age\":25,\"email\":\"ali@example.com\",\"phone\":\"+905551112233\",\"gender\":\"male\",\"baggage\":15,\"seatNumber\":null},"
+        + "\"age\":25,\"email\":\"ali@example.com\",\"phone\":\"+90(555) 111 22 33\",\"gender\":\"male\",\"baggage\":15,\"seatNumber\":null},"
         + "{\"firstName\":\"Ayse\",\"lastName\":\"Kaya\",\"name\":\"Ayse Kaya\",\"tc\":\"12345678902\","
-        + "\"age\":24,\"email\":\"ayse@example.com\",\"phone\":\"+905551234567\",\"gender\":\"female\",\"baggage\":15,\"seatNumber\":null}]");
+        + "\"age\":24,\"email\":\"ayse@example.com\",\"phone\":\"+90(555) 123 45 67\",\"gender\":\"female\",\"baggage\":15,\"seatNumber\":null}]");
     setLocalStorage("busgo_user", "{\"username\":\"Ali Yilmaz\",\"email\":\"ali@example.com\",\"role\":\"user\",\"demoBalance\":5000}");
     openPage("seats.html");
 

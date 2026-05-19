@@ -1133,6 +1133,13 @@ select:focus {
   font-weight: 700;
 }
 
+.field-hint {
+  display: block;
+  margin-top: 6px;
+  color: var(--subtle);
+  font-size: 0.82rem;
+}
+
 .invalid-field {
   border-color: #ef4444 !important;
   box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.16) !important;

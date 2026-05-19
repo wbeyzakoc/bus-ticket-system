@@ -23,14 +23,14 @@
         <form id="paymentForm" class="auth-form">
           <label><span>Card Number</span><input id="cardNumber" placeholder="1234 5678 9012 3456" required /></label>
           <label><span>Card Holder Name</span><input id="cardName" placeholder="Full Name" required /></label>
-          <label><span>Expiry (MM/YY)</span><input id="cardExpiry" placeholder="MM/YY" required /></label>
-          <label><span>CVV</span><input id="cardCvv" placeholder="123" required /></label>
+          <label><span>Expiry (MM/YY)</span><input id="cardExpiry" placeholder="MM/YY" inputmode="numeric" maxlength="5" pattern="\d{2}/\d{2}" autocomplete="cc-exp" required /></label>
+          <label><span>CVV</span><input id="cardCvv" placeholder="123" inputmode="numeric" maxlength="3" pattern="\d{3}" autocomplete="cc-csc" required /></label>
           <button type="submit" class="btn btn-primary">Complete Payment</button>
         </form>
       </section>
     </main>
 
     <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
-    <script src="script.js?v=20260512_payment_lock"></script>
+    <script src="script.js?v=20260519_02"></script>
   </body>
 </html>

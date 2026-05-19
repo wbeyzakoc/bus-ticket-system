@@ -31,9 +31,9 @@
         <h1>Manage Companies</h1>
         <form id="adminCompanyForm" class="admin-form">
           <label><span>Company Name</span><input id="adminCompanyName" type="text" required /></label>
-          <label><span>Phone</span><input id="adminCompanyPhone" type="text" /></label>
-          <label><span>Email</span><input id="adminCompanyEmail" type="email" /></label>
-          <label><span>Logo URL</span><input id="adminCompanyLogo" type="text" /></label>
+          <label><span>Phone</span><input id="adminCompanyPhone" type="tel" required data-phone-mask inputmode="numeric" maxlength="18" pattern="\+90\(\d{3}\) \d{3} \d{2} \d{2}" placeholder="+90(111) 111 11 11" /></label>
+          <label><span>Email</span><input id="adminCompanyEmail" type="email" required /></label>
+          <label><span>Logo URL</span><input id="adminCompanyLogo" type="text" /><small class="field-hint">(optional)</small></label>
           <button class="btn btn-primary" type="submit">Add Company</button>
         </form>
         <div id="adminCompanyList" class="admin-list"></div>
@@ -42,8 +42,8 @@
       <section class="panel reveal">
         <h1>Create / Edit Trip</h1>
         <form id="adminTripForm" class="admin-form">
-          <label><span>From</span><select id="adminFrom"><option value="">Select</option></select></label>
-          <label><span>To</span><select id="adminTo"><option value="">Select</option></select></label>
+          <label><span>From</span><select id="adminFrom" required><option value="">Select</option></select></label>
+          <label><span>To</span><select id="adminTo" required><option value="">Select</option></select></label>
           <label><span>Date</span><input id="adminDate" type="date" required /></label>
           <label><span>Time</span><input id="adminTime" type="time" required /></label>
           <label><span>Price</span><input id="adminPrice" type="number" min="1" step="0.01" required /></label>
@@ -64,6 +64,6 @@
     </main>
 
     <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
-    <script src="script.js?v=20260509_07"></script>
+    <script src="script.js?v=20260519_01"></script>
   </body>
 </html>
